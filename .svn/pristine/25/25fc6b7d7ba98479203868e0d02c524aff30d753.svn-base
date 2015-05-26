@@ -1,0 +1,16 @@
+package com.example.user.ce2006_project;
+
+/**
+ * Created by User on 24/2/2015.
+ */
+public class Address {
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+}

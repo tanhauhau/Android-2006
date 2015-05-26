@@ -1,0 +1,119 @@
+package com.ce2006.project.activity.account;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.ce2006.project.server.Particulars;
+import com.example.user.ce2006_project.R;
+
+/**
+ * Created by lhtan on 25/3/15.
+ */
+public class LogInFragment extends Fragment implements View.OnClickListener {
+    private EditText _txtName, _txtPassword;
+    private Button _btnSubmit, _btnSignUp;
+    private ProgressBar _progressBar;
+    private LoginTask loginTask;
+    private AuthActiviyListener listener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        activity.setTitle(R.string.label_login);
+        try {
+            listener = (AuthActiviyListener) activity;
+        } catch (Exception e) {
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_log_in, null);
+        _txtName = (EditText) view.findViewById(R.id.txtName);
+        _txtPassword = (EditText) view.findViewById(R.id.txtPassword1);
+        _btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
+        _btnSignUp = (Button) view.findViewById(R.id.btnSignUp);
+        _btnSubmit.setOnClickListener(this);
+        _btnSignUp.setOnClickListener(this);
+        _progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == _btnSubmit) {
+            //check username and password field filled
+            String username = _txtName.getText().toString();
+            String password = _txtPassword.getText().toString();
+            if (username.isEmpty()) {
+                _txtName.requestFocus();
+                Toast.makeText(getActivity(), "Please fill in your name!", Toast.LENGTH_LONG).show();
+            } else if (password.isEmpty()) {
+                _txtPassword.requestFocus();
+                Toast.makeText(getActivity(), "Please fill in your password!", Toast.LENGTH_LONG).show();
+            } else {
+                loginTask = new LoginTask(getActivity());
+                loginTask.execute(username, password);
+            }
+        } else if (v == _btnSignUp) {
+            //
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, new SignUpFragment())
+                    .commit();
+        }
+    }
+
+    private class LoginTask extends AsyncTask<String, Void, Boolean> {
+        private Context context;
+        private String name, password;
+
+        private LoginTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            _progressBar.setVisibility(View.VISIBLE);
+            listener.startProgress();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            if (params.length != 2) {
+                return false;
+            } else {
+                name = params[0];
+                password = params[1];
+                return new Particulars().checkUsernamePassword(name, password);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            listener.stopProgress();
+            if (!success) {
+                _txtPassword.requestFocus();
+                Toast.makeText(context, "Please make sure you type in the correct username/password.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, "Successfully Log In!", Toast.LENGTH_LONG).show();
+                listener.endsWithResults(success, name, password);
+            }
+            _progressBar.setVisibility(View.INVISIBLE);
+
+        }
+    }
+
+}

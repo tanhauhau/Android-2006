@@ -1,0 +1,119 @@
+package com.ce2006.project.activity.appointment;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+import android.widget.EditText;
+import android.content.Intent;
+
+import com.ce2006.project.activity.CustomOnItemSelectedListener;
+import com.example.user.ce2006_project.R;
+
+
+public class AcitivyModifyAppointment2 extends Activity {
+
+    private Spinner spinner;
+    private Button finishButton;
+    String _sympDesc;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_modify_appointment_page2);
+
+        addItemsOnSpinner();
+        addListenerOnButton();
+        addListenerOnSpinnerItemSelection();
+
+        EditText sympDesc = (EditText) findViewById(R.id.symptomsText);
+        _sympDesc = sympDesc.getText().toString();
+
+        Button _submit= (Button) findViewById(R.id.finishButton);      //Finish button
+        _submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {                   //pass details to submit_new_particulars when submit button clicked
+                Intent intent = new Intent(getApplicationContext(), update_new_appointment.class);    // Is there a loading page after this page
+                intent.putExtra("new_symptoms", _sympDesc);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_modify_appointment_page2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    // add items into spinner dynamically
+    public void addItemsOnSpinner() {
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        List<String> list = new ArrayList<String>();
+        list.add("General");
+        list.add("Specialized");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addListenerOnSpinnerItemSelection() {
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+
+    // get the selected dropdown list value
+    public void addListenerOnButton() {
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        finishButton = (Button) findViewById(R.id.finishButton);
+
+        finishButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(testapp.ttyi.myapplication.AcitivyModifyAppointment2.this,
+                        "OnClickListener : " +
+                                "\nSpinner 1 : "+ String.valueOf(spinner.getSelectedItem()),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+
+
+
+}

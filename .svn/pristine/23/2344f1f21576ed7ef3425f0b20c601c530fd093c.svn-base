@@ -1,0 +1,93 @@
+<html>
+    <head>
+        {% load clinic_extras %}
+        {% load staticfiles %}
+        <link href="{% static 'css/uikit.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/components/notify.css' %}" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="uk-grid">
+            <div class="uk-width-1-2 uk-container-center">
+                <h2>Update Clinic</h2>
+                <form class="uk-form uk-form-horizontal" action="/clinic/edit/submit" method="post">{% csrf_token %}
+                    <input name="clinicid" type="hidden" value="{{clinic.id}}">
+                    <fieldset data-uk-margin>
+                        <legend>Clinic Details</legend>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="name">Clinic Name</label>
+                            <div class="uk-form-controls">
+                                <input name="name" type="text" value="{{clinic.clinicName}}">
+                                
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="contact">Contact</label>
+                            <div class="uk-form-controls">
+                                <input name="contact" type="text" value="{{clinic.contact}}"/>
+                            </div>
+                        </div>
+                        <legend>Location</legend>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="address">Address</label>
+                            <div class="uk-form-controls">
+                                <input name="address" type="text" value="{{clinic.location.address}}"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="postal">Postal</label>
+                            <div class="uk-form-controls">
+                                <input name="postal" type="text" value="{{clinic.location.postalCode}}"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="city">City</label>
+                            <div class="uk-form-controls">
+                                <select name="city">
+                                    {% with "Sembawang,Ang Mo Kio,Bedok,Bukit Batok,Bishan,Chinatown,Woodlands,Hougang,Pasir Ris,Bukit Panjang,Bukit Merah,Newton,Yishun,Punggol,Tampines,Choa Chu Kang,Bukit Timah,Orchard,Sengkang,Changi,Clementi,Geylang,Tanjong Pagar,Serangoon,Jurong East,Kallang,Raffles Place,Jurong West,Marine Parade,Rochor,Queenstown,City Hall,Toa Payoh,Paya Lebar" as city_list %}
+                                    {% for c in city_list|split:"," %}
+    <option value="{{c}}" {% if clinic.location.city == c %}selected{% endif %}>{{c}}</option>
+                                    {% endfor %}
+                                    {% endwith %}
+                                </select>
+<!--                                <input id="city" name="city" type="text" value="{{clinic.location.city}}"/>-->
+                            </div>
+                        </div>
+
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="country">Country</label>
+                            <div class="uk-form-controls">
+                                <input name="country" type="text" value="{{clinic.location.country}}"/>
+                            </div>
+                        </div>
+
+                        <a class="uk-button uk-button-success" id="submitbutton">Save</a>
+                        <a href="/clinic/list" class="uk-button" >Back</a>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+
+    </body>
+    <script src="{% static 'script/jquery.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/jquery.form.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/uikit.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/components/notify.min.js' %}" type="text/javascript"></script>
+    <script>
+        $(function(){
+            $("#submitbutton").click(function(){
+                $("form").ajaxSubmit({
+                    success: function(){
+                        window.location.href="/clinic/list";
+                    },
+                    error: function(xhr, status, error){
+                        UIkit.notify({status: 'danger', message: "Error (" + error + ")"});
+                    },
+                    complete: function(){
+                        $("form").clearForm();
+                    }
+                });
+            });
+        });
+    </script>
+</html>

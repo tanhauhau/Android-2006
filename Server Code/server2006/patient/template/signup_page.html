@@ -1,0 +1,131 @@
+<html>
+    <head>
+        {% load staticfiles %}
+        <link href="{% static 'css/uikit.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/components/notify.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/components/datepicker.min.css' %}" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="uk-grid">
+            <div class="uk-width-1-2 uk-container-center">
+                <h2>Register</h2>
+                <form class="uk-form uk-form-horizontal" action="/signup/submit" method="post">
+                    {% csrf_token %}
+                    <fieldset data-uk-margin>
+                        <legend>Personal Details</legend>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="name">Name</label>
+                            <div class="uk-form-controls">
+                                <input name="name" type="text"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="date">Date Of Birth</label>
+                            <div class="uk-form-controls">
+                                <input name="birthday" type="" data-uk-datepicker="{format:'DD/MM/YYYY'}"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="password">Password</label>
+                            <div class="uk-form-controls">
+                                <input name="password" type="password"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="password">Password Again</label>
+                            <div class="uk-form-controls">
+                                <input name="password2" type="password"/>
+                            </div>
+                        </div>
+                        <legend>Contact Details</legend>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="phone">Phone Number</label>
+                            <div class="uk-form-controls">
+                                <input name="phone" type="tel"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="email">Email</label>
+                            <div class="uk-form-controls">
+                                <input name="email" type="email"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label">Contact Via</label>
+                            <div class="uk-form-controls">
+                                <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="">
+                                    <li class="uk-active"><a href="#">Phone</a></li>
+                                    <li class=""><a href="#">Email</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <input name="type" type="hidden" value="0">
+                        <legend>Location</legend>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="address">Address</label>
+                            <div class="uk-form-controls">
+                                <input name="address" type="text"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="postal">Postal</label>
+                            <div class="uk-form-controls">
+                                <input name="postal" type="text"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="city">City</label>
+                            <div class="uk-form-controls">
+                                <input id="city" name="city" type="text"/>
+                            </div>
+                        </div>
+
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="country">Country</label>
+                            <div class="uk-form-controls">
+                                <input name="country" type="text"/>
+                            </div>
+                        </div>
+                        <a class="uk-button uk-button-primary" id="submitbutton">Register</a>
+                        <a class="uk-button uk-button-success" href="/login">Login</a>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+
+    </body>
+    <script src="{% static 'script/jquery.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/jquery.form.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/uikit.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/components/notify.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/components/datepicker.min.js' %}" type="text/javascript"></script>
+    <script>
+        $(function(){
+            $("#submitbutton").click(function(){
+                $("form").ajaxSubmit({
+                    beforeSubmit: function(){
+                        var li = $("ul[data-uk-switcher]>li");
+                        if($(li[0]).hasClass("uk-active")){
+                            $("input[name='type']").attr("value","0");
+                        }else{
+                            $("input[name='type']").attr("value", "1");
+                        }
+                    },
+                    success: function(data, status, xhr){
+                        window.location.href=data;
+                    },
+                    error: function(xhr, status, error){
+                        UIkit.notify({status: 'danger', message: "Error (" + error + ")"});
+                    },
+                    complete: function(){
+                        $("form").clearForm();
+                    }
+                });
+            });
+        });
+    </script>
+</html>
+
+
+

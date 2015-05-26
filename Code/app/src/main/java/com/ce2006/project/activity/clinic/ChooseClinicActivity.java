@@ -1,0 +1,83 @@
+package com.ce2006.project.activity.clinic;
+
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ListView;
+
+import com.ce2006.project.adapter.ClinicListArrayAdapter;
+import com.ce2006.project.localstorage.PreferenceManager;
+import com.ce2006.project.model.Clinic;
+import com.ce2006.project.model.Credential;
+import com.ce2006.project.server.ClinicManager;
+import com.example.user.ce2006_project.R;
+
+/**
+ * Activity to choose clinic and return the results via
+ * {@link android.support.v7.app.ActionBarActivity#setResult(int, android.content.Intent)}
+ * Created by lhtan on 5/4/15.
+ */
+public class ChooseClinicActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+
+    public static final String CLINIC_EXTRA = "clinic";
+    private ListView listView;
+
+    /**
+     * load clinics via {@link com.ce2006.project.server.ClinicManager#getClinicList()}
+     * @param savedInstanceState
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //init layout
+        setContentView(R.layout.activity_container);
+        FrameLayout view = (FrameLayout) findViewById(R.id.container);
+        View list = getLayoutInflater().inflate(R.layout.fragment_view_list, null);
+        view.addView(list);
+        listView = (ListView) list.findViewById(R.id.list);
+
+        final View progressBar = list.findViewById(R.id.progressBar);
+        final ClinicManager clinicManager = new ClinicManager(Credential.getCredential(PreferenceManager.getManager(this)));
+        new AsyncTask<Void, Void, Clinic[]>() {
+            @Override
+            protected void onPreExecute() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected Clinic[] doInBackground(Void... params) {
+                return clinicManager.getClinicList();
+            }
+
+            @Override
+            protected void onPostExecute(Clinic[] clinics) {
+                progressBar.setVisibility(View.INVISIBLE);
+                loadClinics(clinics);
+            }
+        }.execute();
+    }
+
+    /**
+     * show clinics in listview via {@link com.ce2006.project.adapter.ClinicListArrayAdapter}
+     * @param clinics
+     */
+    private void loadClinics(Clinic[] clinics) {
+        listView.setAdapter(new ClinicListArrayAdapter(this, clinics));
+        listView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (parent == listView) {
+            Clinic clinic = (Clinic) listView.getAdapter().getItem(position);
+            Intent result = new Intent();
+            result.putExtra(CLINIC_EXTRA, clinic);
+            setResult(RESULT_OK, result);
+            finish();
+        }
+    }
+}

@@ -1,0 +1,42 @@
+package com.ce2006.project.model;
+
+/**
+ * Created by lhtan on 31/3/15.
+ */
+public class Timeslot {
+    private int hour, min;
+    private int n;
+    private String string;
+
+    public Timeslot(String time, int n) {
+        this.n = n;
+        String[] t = time.split(":");
+        hour = Integer.parseInt(t[0]);
+        min = Integer.parseInt(t[1]);
+        //get representation string
+        int ehour = hour, emin = min;
+        emin += 30;
+        if (emin >= 60) {
+            emin -= 60;
+            ehour += 1;
+        }
+        string = String.format("%d:%02d - %d:%02d (%d)", hour, min, ehour, emin, n);
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public int getSec() {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return string;
+    }
+}

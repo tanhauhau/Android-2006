@@ -1,0 +1,175 @@
+package com.ce2006.project.activity.appointment;
+
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.NumberPicker;
+import android.widget.TimePicker;
+
+import com.example.user.ce2006_project.R;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class ActivityModifyAppointment extends ActionBarActivity implements OnClickListener {
+
+    private TimePicker timePicker;  //Copied
+    private int TIME_PICKER_INTERVAL = 30;
+    NumberPicker minutePicker;
+    List<String> displayedValues;
+
+    private int hour;   //Copied
+    private int minute; //Copied
+
+    private DatePicker datePicker;
+
+    private int year;
+    private int month;
+    private int day;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_modify_appointment);
+
+        timePicker = (TimePicker) findViewById(R.id.timePicker);
+
+        timePicker.setIs24HourView(true);
+        timePicker.setCurrentHour(0);
+        timePicker.setCurrentMinute(0);
+        setTimePickerInterval(timePicker);
+
+        setCurrentDateOnView();
+
+        Button nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(this);
+    }
+
+    @SuppressLint("NewApi")
+    private void setTimePickerInterval(TimePicker timePicker) {
+        try {
+            Class<?> classForid = Class.forName("com.android.internal.R$id");
+            // Field timePickerField = classForid.getField("timePicker");
+
+            Field field = classForid.getField("minute");
+            minutePicker = (NumberPicker) timePicker
+                    .findViewById(field.getInt(null));
+
+            minutePicker.setMinValue(0);
+            minutePicker.setMaxValue(1);
+            displayedValues = new ArrayList<String>();
+            for (int i = 0; i < 60; i += TIME_PICKER_INTERVAL) {
+                displayedValues.add(String.format("%02d", i));
+            }
+            for (int i = 0; i < 60; i += TIME_PICKER_INTERVAL) {
+                displayedValues.add(String.format("%02d", i));
+            }
+            minutePicker.setDisplayedValues(displayedValues.toArray(new String[0]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /* Read in user chose time
+    private TimePickerDialog.OnTimeSetListener timePickerListener =
+            new TimePickerDialog.OnTimeSetListener() { //COPIED
+        public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
+            hour = selectedHour;
+            minute = selectedMinute;
+
+            // set current time into timepicker
+            timePicker.setCurrentHour(hour);
+            timePicker.setCurrentMinute(minute);
+            }
+         };
+    */
+
+    // Read in user chosen time, stored as mHour and mMinute
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
+            new TimePickerDialog.OnTimeSetListener() {
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    int mHour = hourOfDay;
+                    int mMinute = minute;
+
+                    timePicker.setCurrentHour(hour);
+                    timePicker.setCurrentMinute(minute);
+
+
+                    // Need to write mHour and mMinute into database
+                }
+            };
+
+    // display current date
+    public void setCurrentDateOnView() {
+
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
+
+        final Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+
+        // set current date into datepicker
+        datePicker.init(year, month, day, null);
+
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener
+            = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            final Calendar c = Calendar.getInstance();
+
+            // set selected date into datepicker also
+            datePicker.init(year, month, day, null);
+
+            // need to write year, month, day into database
+            // also need to add logic for NOT on same day
+            //if ((year <= c.get(Calendar.YEAR)) && (month <= c.get(Calendar.MONTH)) && (day <= c.get(Calendar.DAY_OF_MONTH)))
+            //    return [error message and must choose again];
+
+        }
+    };
+    @Override
+    public void onClick(View v) {
+//        Log.i("clicks", "You Clicked B1");
+//        Intent i = new Intent(testapp.ttyi.myapplication.ActivityModifyAppointment.this, modify_appointment_page2.class);
+//        startActivity(i);
+    }
+}
+
+// Codes marked with COPIED is taken from: http://examples.javacodegeeks.com/android/core/ui/timepicker/android-time-picker-example/

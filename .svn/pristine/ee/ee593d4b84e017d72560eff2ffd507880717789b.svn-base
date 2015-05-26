@@ -1,0 +1,78 @@
+package com.ce2006.project.server;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * Created by lhtan on 24/3/15.
+ */
+public class Server {
+    private String url;
+    private HashMap<String, String> params;
+    private boolean post;
+
+    public Server(String url, boolean post) {
+        this.url = url;
+        this.post = post;
+        params = new HashMap<>();
+    }
+    Server data(String key, String value){
+        params.put(key, value);
+        return this;
+    }
+    JSONObject execute(){
+        try {
+            HttpUriRequest request = null;
+            if(this.params.size() > 0) {
+                request = new HttpPost(url);
+                // Request parameters and other properties.
+                List<NameValuePair> params = new ArrayList<NameValuePair>(this.params.size());
+                for (String key : this.params.keySet()) {
+                    params.add(new BasicNameValuePair(key, this.params.get(key)));
+                }
+                ((HttpPost) request).setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+            }else{
+                List<NameValuePair> params = new ArrayList<NameValuePair>(this.params.size());
+                for (String key : this.params.keySet()) {
+                    params.add(new BasicNameValuePair(key, this.params.get(key)));
+                }
+                String paramString = URLEncodedUtils.format(params, "utf-8");
+
+                request = new HttpGet(url+(url.endsWith("?")?"":"?")+paramString);
+            }
+            //client
+            HttpClient client = new DefaultHttpClient();
+
+            HttpResponse response = client.execute(request);
+            HttpEntity entity = response.getEntity();
+            int status = response.getStatusLine().getStatusCode();
+            if(entity != null) {
+                String content =  EntityUtils.toString(entity);
+                JSONObject json = new JSONObject(content);
+                return json;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}

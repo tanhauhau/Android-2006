@@ -1,0 +1,213 @@
+<html>
+    <head>
+        {% load clinic_extras %}
+        {% load staticfiles %}
+        <link href="{% static 'css/uikit.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/components/accordion.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/components/datepicker.min.css' %}" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="uk-grid">
+            <div class="uk-width-1-2 uk-container-center">
+                <h2>Create Appointment</h2>
+                <a class="uk-button uk-button-danger" href="/logout">Log out</a>
+                <a class="uk-button" href="/patient">Profile</a>
+                <form class="uk-form uk-form-horizontal" action="/appointment/create/submit" method="post" style="margin-top: 10px;">{% csrf_token %}
+                    <ul class="uk-tab" style="margin-bottom: 10px;" data-uk-tab>
+                        <li class="uk-active"><a>#1 Appointment Type</a></li>
+                        <li class="uk-disabled"><a>#2 Location</a></li>
+                        <li class="uk-disabled"><a>#3 Date</a></li>
+                        <li class="uk-disabled"><a>#4 Timeslot</a></li>
+                        <li class="uk-disabled"><a>#5 Doctor</a></li>
+                    </ul>
+<!--                    <input type="hidden" name="patientid" value="{{patient.id}}"/>-->
+                    <div id="step1" class="step-container active">
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="type">Type</label>
+                            <div class="uk-form-controls">
+                                <select name="type" id="filter_type">
+                                    <option value="0">General</option>
+                                    <option value="1">Dental</option>
+                                    <option value="2">Ear, Nose and Throat</option>
+                                    <option value="3">Women Health</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="step2" class="step-container disabled">
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="city">City</label>
+                            <div class="uk-form-controls">
+                                <select name="city" id="filter_city">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="step3" class="step-container disabled">
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="date">Date</label>
+                            <div class="uk-form-controls">
+                                <input name="date" id="filter_date" type="" data-uk-datepicker="{format:'DD/MM/YYYY'}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="step4" class="step-container disabled">
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="date">Time Slot</label>
+                            <div class="uk-form-controls">
+                                <ul class="uk-list" id="filter_time">
+<!--                                    <li><label><input type="radio" name="time" value="{{i}}">{{i}}</label></li>-->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="step4" class="step-container disabled">
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="date">Doctor</label>
+                            <div class="uk-form-controls">
+                                <ul class="uk-list" id="filter_doctor">
+                                    <!--                                    <li><label><input type="radio" name="time" value="{{i}}">{{i}}</label></li>-->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="uk-button" id="nextbutton">Next</a>
+                    <a class="uk-button uk-button-success" id="submitbutton">Make Appointment</a>
+                    <a class="uk-button" id="backbutton">Back</a>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script src="{% static 'script/jquery.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/uikit.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/components/accordion.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/components/datepicker.min.js' %}" type="text/javascript"></script>
+    <style>
+        .step-container.disabled{
+            display: none;
+        }
+    </style>
+    <script type="application/javascript">
+        function updateTab(step){
+            $($("ul.uk-tab li")
+                .removeClass("uk-active")
+                .addClass("uk-disabled")
+                .get(step-1))
+                .removeClass("uk-disabled")
+                .addClass("uk-active");
+            $($(".step-container")
+                .removeClass("active")
+                .addClass("disabled")
+                .get(step-1))
+                .addClass("active")
+                .removeClass("disabled");
+            if(step <= 1){
+                $("#backbutton").css("display","none");
+            }else{
+                $("#backbutton").css("display","");
+            }
+            if(step != 5){
+                $("#submitbutton").css("display","none");
+                $("#nextbutton").css("display","");
+            }else{
+                $("#submitbutton").css("display","");
+                $("#nextbutton").css("display","none");
+            }
+        }
+        $(function(){
+            var step = 1;
+            
+            updateTab(step);
+            $("#backbutton").click(function(){
+                step -= 1;
+                updateTab(step);
+            });
+            
+            $("#nextbutton").click(function(){
+                var url;
+                var data = {};
+                switch(step){
+                    case 1:
+                        url = "/appointment/getclinic/" + $("#filter_type").val();
+                        break;
+                    case 2:
+                        url = "";
+                        break;
+                    case 3:
+                        url = "/appointment/gettimeslot";
+                        data = {type: $("#filter_type").val(),
+                                city: $("#filter_city").val(),
+                                date: $("#filter_date").val()};
+                        break;
+                    case 4:
+                        var timeslot = $("#filter_time input:checked").val();
+                        url = "/appointment/getdoctor";
+                        data = {type: $("#filter_type").val(),
+                                city: $("#filter_city").val(),
+                                date: $("#filter_date").val(),
+                                timeslot: timeslot};
+                        break;
+                }
+                if(url != ""){
+                    $.ajax(url, {
+                        dataType: "json",
+                        data: data,
+                        success: function(data, status, xhr){
+                            switch(step){
+                                case 1:
+                                    var select_city = $("#filter_city");
+                                    select_city.find("option").remove();
+                                    $($.parseJSON(data)).each(function(i,e){
+                                        select_city.append("<option value='" + 
+                                                           e + "'>" + e + "</option>");
+                                    });
+                                    break;
+                                case 3:
+                                    var list_time = $("#filter_time");
+                                    list_time.find("li").remove();
+                                    $($.parseJSON(data)).each(function(i,e){
+                                        list_time.append('<li><label><input type="radio" name="time" value="' + e.time + '">' + e.time + ' (' + e.n + ')</label></li>');
+                                    });
+//                                    <li><label><input type="radio" name="time" value="{{i}}">{{i}}</label></li>
+                                    break;
+                                case 4:
+                                    var list_doctor = $("#filter_doctor");
+                                    list_doctor.find("li").remove();
+                                    $($.parseJSON(data)).each(function(i,e){
+                                        list_doctor.append('<li><label><input type="radio" name="doctor" value="' + e.id + '">' + e.name + ' (' + e.clinic + ')</label></li>');
+                                    });
+                                    break;
+                            }
+                            step += 1;
+                        },
+                        complete: function(){
+                            updateTab(step);
+                        }
+                    })
+                }else{
+                    step ++;
+                    updateTab(step);
+                }
+            });
+            $("#submitbutton").click(function(){
+                var timeslot = $("#filter_time input:checked").val();
+                var doctor = $("#filter_doctor input:checked").val();
+                var csrf = $("input[name='csrfmiddlewaretoken']").val();
+                var data = {type: $("#filter_type").val(),
+                            city: $("#filter_city").val(),
+                            date: $("#filter_date").val(),
+                            timeslot: timeslot,
+                            doctor: doctor,
+                            csrfmiddlewaretoken: csrf};
+                $.ajax({
+                        url: "/appointment/create/submit",
+                        data: data,
+                        method: "POST",
+                        success: function(e){
+                            window.location.href = e;
+                        }
+                });
+            });
+        });
+    </script>
+</html>

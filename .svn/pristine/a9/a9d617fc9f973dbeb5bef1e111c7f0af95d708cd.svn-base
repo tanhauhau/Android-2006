@@ -1,0 +1,103 @@
+package com.ce2006.project.server;
+
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+/**
+ * Created by lhtan on 24/3/15.
+ */
+public class Appointment{
+    private static final String host = "http://192.0.0.1";
+    private String username, password;
+    private int type;
+    private String city;
+    private int minute, hour, date, month, year;
+    private int doctor;
+
+    public Appointment(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public void getClinicList(int type){
+        this.type = type;
+        Server server = new Server(host + "/appointment/getclinic/" + type, false);
+        server.data("username", username);
+        server.data("password", password);
+        JSONObject object = server.execute();
+        Log.d("Tan", String.valueOf(object));
+        try {
+            JSONArray array = object.getJSONArray("");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void getTimeslot(String city, int year, int month, int date){
+        this.city = city;
+        this.year = year;
+        this.month = month;
+        this.date = date;
+        Server server = new Server(host + "/appointment/gettimeslot", false);
+        server.data("username", username);
+        server.data("password", password);
+        server.data("type", String.valueOf(type));
+        server.data("city", city);
+        String dateString = String.format("%d/%d/%d", date, month, year);
+        server.data("date", dateString);
+        JSONObject object = server.execute();
+        Log.d("Tan", String.valueOf(object));
+        try {
+            JSONArray array = object.getJSONArray("");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void getDoctor(int hour, int minute){
+        this.hour = hour;
+        this.minute = minute;
+        Server server = new Server(host + "/appointment/getdoctor", false);
+        server.data("username", username);
+        server.data("password", password);
+        server.data("type", String.valueOf(type));
+        server.data("city", city);
+        String dateString = String.format("%d/%d/%d", date, month, year);
+        String timeString = String.format("%d:%d:00", hour, minute);
+        server.data("date", dateString);
+        server.data("timeslot", timeString);
+
+        JSONObject object = server.execute();
+        Log.d("Tan", String.valueOf(object));
+        try {
+            JSONArray array = object.getJSONArray("");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void makeAppointment(int doctor){
+        this.doctor = doctor;
+        Server server = new Server(host + "/appointment/getdoctor", false);
+        server.data("username", username);
+        server.data("password", password);
+        server.data("type", String.valueOf(type));
+        server.data("city", city);
+        String dateString = String.format("%d/%d/%d", date, month, year);
+        String timeString = String.format("%d:%d:00", hour, minute);
+        server.data("date", dateString);
+        server.data("timeslot", timeString);
+        server.data("doctor", String.valueOf(doctor));
+        JSONObject object = server.execute();
+        Log.d("Tan", String.valueOf(object));
+        try {
+            JSONArray array = object.getJSONArray("");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -1,0 +1,89 @@
+package com.ce2006.project.activity.account;
+
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ce2006.project.localstorage.PreferenceManager;
+import com.ce2006.project.server.Particulars;
+import com.example.user.ce2006_project.R;
+
+/**
+ * Created by lhtan on 5/4/15.
+ */
+public class NewAdminActivity extends ActionBarActivity implements View.OnClickListener {
+    private EditText txtName, txtPassword1, txtPassword2;
+    private Button buttonSubmit;
+    private ProgressBar progressBar;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_admin);
+        txtName = (EditText) findViewById(R.id.txtName);
+        txtPassword1 = (EditText) findViewById(R.id.txtPassword1);
+        txtPassword2 = (EditText) findViewById(R.id.txtPassword2);
+        buttonSubmit = (Button) findViewById(R.id.btnSubmit);
+        buttonSubmit.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == buttonSubmit) {
+            boolean emptyField = false;
+            TextView focusTo = null;
+            if (txtName.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtName;
+            }
+            if (txtPassword1.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtPassword1;
+            }
+            if (txtPassword2.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtPassword2;
+            }
+            //password length at least 6 characters
+            if (txtPassword1.getText().length() < 6) {
+                txtPassword1.requestFocus();
+                Toast.makeText(this, "Password should at least 6 characters!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            //password should be the same
+            if (!txtPassword2.getText().toString().equals(txtPassword1.getText().toString())) {
+                txtPassword2.requestFocus();
+                Toast.makeText(this, "Password not the same!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            createAdmin();
+        }
+    }
+
+    private void createAdmin() {
+        final PreferenceManager manager = PreferenceManager.getManager(this);
+        final Context context = this;
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                return Particulars.createAdmin(manager.getUserName(), manager.getPassword(), txtName.getText().toString(), txtPassword1.getText().toString());
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                if (aBoolean){
+                    Toast.makeText(context, "Successfully created admin!", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(context, "Error!", Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute();
+
+    }
+}

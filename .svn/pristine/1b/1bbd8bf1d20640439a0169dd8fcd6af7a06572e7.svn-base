@@ -1,0 +1,90 @@
+package com.ce2006.project.server;
+
+import com.ce2006.project.model.User_Particulars;
+
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+
+/**
+ * Created by lhtan on 24/3/15.
+ */
+public class Particulars {
+    public static boolean createParticulars(String name, String password, String email, String contact, String country, String city, String address, String postal_code, String type) {
+        JsonRequest request = new JsonRequest("api/account/register");
+        request.data("name", name)
+                .data("birthday", "1/1/1993")
+                .data("password", password)
+                .data("password2", password)
+                .data("phone", contact)
+                .data("email", email)
+                .data("address", address)
+                .data("postal", postal_code)
+                .data("city", city)
+                .data("country", country)
+                .data("type", type);
+        JSONObject results = (JSONObject) request.execute();
+        if(results == null || results.keySet().contains("error")) {
+            return false;
+        }
+        return true;
+    }
+    public static User_Particulars getParticulars(String name, String password){
+        JsonRequest request = new JsonRequest("api/account/view");
+        request.data("username", name)
+                .data("password", password);
+        JSONObject results = (JSONObject) request.execute();
+        if (results != null){
+            String username = (String) results.get("username");
+            String phone = (String) results.get("phone");
+            String email = (String) results.get("email");
+            String address = (String) results.get("address");
+            boolean type = ((Long) results.get("type")) == 1;
+            String postal = (String) results.get("postal");
+            String city = (String) results.get("city");
+            String country = (String) results.get("country");
+            User_Particulars particulars = new User_Particulars(username, type, phone,
+                    email, address, postal, city, country);
+            return particulars;
+        }
+        return null;
+    }
+    public static boolean updateParticulars(String name, String password, String email, String contact, String country, String city, String address, String postal_code, boolean type) {
+        JsonRequest request = new JsonRequest("api/account/update");
+        request.data("username", name);
+        request.data("password", password);
+        request.data("phone", contact);
+        request.data("email", email);
+        request.data("address", address);
+        request.data("postal", postal_code);
+        request.data("city", city);
+        request.data("country", country);
+        request.data("type", type?"1":"0");
+        JSONObject results = (JSONObject) request.execute();
+        if(results == null || results.keySet().contains("error")) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkUsernameExist(String name){
+        JsonRequest request = new JsonRequest("api/account/username/check");
+        request.data("username", name);
+        JSONObject results = (JSONObject) request.execute();
+        if (results != null && results.keySet().contains("exists")){
+            boolean exists = (boolean) results.get("exists");
+            return exists;
+        }
+        return false;
+    }
+    public boolean checkUsernamePassword(String name, String password){
+        JsonRequest request = new JsonRequest("api/account/login");
+        request.data("username", name);
+        request.data("password", password);
+        JSONObject results = (JSONObject) request.execute();
+        if (results != null && results.keySet().contains("login")){
+            String success = (String) results.get("login");
+            return success.equals("success");
+        }
+        return false;
+    }
+}

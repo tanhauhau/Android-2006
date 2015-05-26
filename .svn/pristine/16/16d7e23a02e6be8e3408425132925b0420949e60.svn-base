@@ -1,0 +1,16 @@
+package com.example.user.ce2006_project;
+
+/**
+ * Created by User on 24/2/2015.
+ */
+public class Postal_code {
+    private String postal_code;
+
+    public String getPostal_code() {
+        return postal_code;
+    }
+
+    public void setPostal_code(String postal_code) {
+        this.postal_code = postal_code;
+    }
+}

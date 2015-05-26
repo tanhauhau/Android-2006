@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.user.ce2006_project">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/MedKitTheme">
+        <activity
+            android:name="com.ce2006.project.activity.MainActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.account.AuthActivity"
+            android:label="@string/label_register"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name="com.ce2006.project.activity.account.ModifyParticularActivity"
+            android:label="Update Particulars"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name="com.ce2006.project.activity.appointment.MakeAppointmentActivity"
+            android:label="@string/title_activity_make_appointment"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name="com.ce2006.project.activity.appointment.ViewModifyAppointmentActivity"
+            android:label="@string/label_view_modify_appointment"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name="com.ce2006.project.activity.firstaid.FirstAidActivity"
+            android:label="@string/label_view_first_aid"></activity>
+    </application>
+
+</manifest>

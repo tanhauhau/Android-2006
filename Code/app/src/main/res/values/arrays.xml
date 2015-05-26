@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="first_aid_img">
+        <item>@drawable/bleed</item>
+        <item>@drawable/breathing</item>
+        <item>@drawable/burn</item>
+        <item>@drawable/choking</item>
+        <item>@drawable/cuts</item>
+        <item>@drawable/sprain</item>
+        <item>@drawable/fracture</item>
+    </string-array>
+    <string-array name="first_aid_titles">
+        <item>Bleeding</item>
+        <item>Breathing Problem</item>
+        <item>Burn</item>
+        <item>Choking</item>
+        <item>Cuts</item>
+        <item>Sprain</item>
+        <item>Fracture</item>
+    </string-array>
+    <string-array name="first_aid_desc">
+        <!-- bleeding -->
+        <item><b>BEFORE INITIATING ANY FIRST AID TO CONTROL BLEEDING, BE SURE TO WEAR HEALTH CARE GLOVES TO AVOID CONTACT OF THE VICTIM\’S BLOOD WITH YOUR SKIN.</b>\n
+            <b>TREATMENT</b>\n
+            1. <b>Act quickly. </b>Have victim lie down. Elevate injured limb higher than heart unless you suspect a broken bone.\n
+            2. <b>Control bleeding by applying direct pressure on the wound</b> with a sterile pad or clean cloth.\n
+            3. <b>If bleeding is controlled by direct pressure</b>, bandage firmly to protect wound. Check pulse to be sure bandage is not too tight.\n
+            4. <b>If bleeding is not controlled by use of direct pressure</b>, apply a tourniquet only as a last resort.\n
+            5. Call for professional medical help immediately.\n
+            6. <b>If you are bleeding and have no one to help you</b>, call for professional medical help.\n
+            Lie down, so your body weight applies pressure to the bleeding site.</item>
+        <!-- breathing -->
+        <item><b>ESTABLISH NON-RESPONSIVENESS AND ACTIVATE EMERGENCY MEDICAL SERVICES (EMS) OR CALL FOR HELP.</b>\n
+              <b>SYMPTOMS</b>\n
+                May include: Shortness of breath, dizziness, chest pain, rapid pulse, bluish-purple skin color, dilated pupils, unconsciousness.\n
+                <b>TREATMENT</b>\n
+                <b>For victim who has stopped breathing:</b>\n
+                1. Lay victim flat on back. Tilt the head back with one hand to open airway, while placing two fingers of the other hand under the chin. \n
+                2. Clear airway, using your fingers in a hooked fashion to remove any solid or liquid obstructions. \n
+                3. Look, listen, and feel for respiratory movement for 5 seconds. If breathing is absent, pinch victim’s nostrils closed, take a deep breath, completely cover victim\’s mouth, and give two slow, full breaths.\n 4. Check for carotid pulse in neck and for signs of breathing. \n
+                5. If pulse is present: \n
+                <b>For adults</b> – continue rescue breathing at a rate of one strong every five seconds. Re-check for pulse and breathing every twelve breaths. \n
+                <b>For infants and small children</b> – breathe shallow breaths at a rate of one every three seconds or 20 per minute. \n
+                6. If pulse is not present, begin Cardiopulmonary Resuscitation (CPR). \n
+                <b>For adults...</b> Exert enough pressure to depress the breastplate 1 1/2 to 2 inches. Continue compressions at a rate of \"one and two and...\" Every fifteen compressions should be followed with a pause by two rescue breaths. \n
+                <b>For children...</b> Use the heel of only one hand to depress the breastplate 1 to 1 1/2 inches. Continue compressions at a rate of 100 per minute "one, two, three..." Every five compressions should be followed without a pause by one rescue breath. For infants... Use only fingertips. Apply moderate pressure to depress breastplate 1/2 to 3/4 inches. Continue compressions at a rate of at least 100 per minute. Every five compressions (3 seconds) should be followed without a pause by one rescue breath.</item>
+
+        <!-- burning -->
+        <item><b>CAUTION</b> \n
+        DO NOT clean burns or break blisters. DO NOT remove any clothing that sticks to burn. DO NOT apply grease, ointment or medication to a severe burn. DO NOT use cotton or material with loose fibers to cover burns. \n
+        <b>TREATMENT</b> \n
+        <b>First degree burns</b> – redness or discoloration of skin surface; mild swelling and pain. \n
+        1. Apply cool, wet cloths or immerse in water. DO NOT use ice. \n
+        2. Blot gently; apply a dry, sterile pad if necessary. \n
+        3. Usually medical treatment is not necessary; however, if severe exist, call for professional medical help. Be alert for signs of shock. \n \n
+        <b>Second degree burns</b> – deep burn with red or mottled appearance; blisters; considerable pain and swelling; skin surface appears wet. See treatment for first degree burns. If arms and legs are affected, elevate above heart level. Burns may be deep and potentially serious, requiring medical treatment depending on extent and location. Be alert for signs of shock and infection. \n \n
+        <b>Third degree burns</b> – deep tissue destruction with a white or charred appearance; no pain. Call for professional medical help immediately. Be alert for signs of shock. \n</item>
+        <!-- choking -->
+        <item>
+            <b>Partial Obstruction with Good Air Exchange</b>\n
+            <b>SYMPTOMS</b>\n
+            May include: Forceful cough with wheezing sounds between coughs.\n
+            <b>TREATMENT</b>\n
+            Encourage victim to cough as long as good air exchange continues. DO NOT interfere with attempts to expel object.\n \n
+            <b>Partial or Complete Airway Obstruction in Conscious Victim with Poor Air Exchange</b>\n
+            <b>SYMPTOMS</b>\n
+            May include: Weak cough; high-pitched crowing noises during inhalation; inability to breathe, cough or speak; gesture of clutching neck between thumb and index finger; exaggerated breathing efforts; dusky or bluish skin color. \n
+            <b>TREATMENT</b> \n
+            <b>For Adult Victim</b> \n
+            If victim is standing or sitting: \n
+            1. Stand slightly behind victim. \n
+            2. Place your arms around victim’s waist; place your fist, thumb side in, against victim’s abdomen, slightly above the navel and below the rib margins. \n
+            3. Grasp fist with your other hand and exert a quick upward thrust. Repeat (five times in a rapid succession) if necessary (Heimlich Maneuver or manual thrust.) \n \n
+            <b>Complete Airway Obstruction in Unconscious Victim</b> \n
+            1. Activate EMS system first. Follow breathing problems section</item>
+
+        <!-- cuts -->
+        <item><b>BEFORE INITIATING ANY FIRST AID TO CONTROL BLEEDING, BE SURE TO WEAR HEALTH CARE GLOVES TO AVOID CONTACT OF THE VICTIM’S BLOOD WITH YOUR SKIN.</b>\n \n
+            1. <b>CLEAN...</b> wound and surrounding area gently with mild soap and rinse. Blot dry with sterile pad or clean dressing. \n
+            2. <b>TREAT...</b> to protect against contamination.\n
+            3. <b>PROTECT...</b> and cover to absorb fluids and prevent further contamination. (Handle only the edges of sterile pads or dressings.) Secure with first aid tape to help keep out dirt and germs.</item>
+
+        <!-- sprain -->
+        <item><b>SYMPTOMS</b> \n
+May include: Painful movement, swelling, discoloration and tenderness around injured joint. \n \n
+<b>CAUTION</b> \n
+Victim may have a broken bone (fracture) and should be examined by a medical professional. \n \n
+<b>TREATMENT</b> \n
+1. If ankle or knee is affected, do not allow victim to walk. Loosen or remove shoe; elevate leg. \n
+2. Protect skin with thin towel or cloth. Then apply cold, wet compresses or cold packs to affected area. \n
+Never pack joint in ice or immerse in icy water. \n
+3. Consult professional medical assistance for further treatment if necessary.</item>
+
+        <!-- fracture -->
+        <item><b>SYMPTOMS</b>\n
+            May include: The victim hearing or feeling the bone break; area tender to touch with pain in one spot; swelling noted around suspected fracture; limb in an unnatural position; painful movement; abnormal motion; loss of function; grating sensation; discoloration of affected area. \n
+            <b>TREATMENT</b>\n
+1. Keep victim warm and still, treat for shock if necessary. <b>DO NOT move victim until a splint has been applied</b> unless there is danger of a life-threatening emergency. \n
+2. <b>If bone is suspected to be broken but does not pierce the skin </b>(closed fracture), splint the limb before the victim is moved, immobilizing the joint above and below the suspected fracture site. \n
+3. <b>If broken bone pierces the skin </b>(open or compound fracture), apply pressure to appropriate pressure point to control bleeding. DO NOT try to straighten limb, return it to a natural position, or replace bone fragments. DO NOT touch or clean the wound. Secure a sterile pad or clean cloth firmly in place over the wound and tie with strong bandages or cloth strips. \n
+4. If victim <b>must</b> be moved, apply a splint to prevent further damage. Use anything that will keep the broken bones from moving, including broomsticks, boards or rolled magazines. Pad splints with cotton, clothes or clean cloths tied firmly (but not tightly) in place. If victim complains of numbness, loosen splint. \n
+5. Get professional medical help immediately. </item>
+    </string-array>
+</resources>

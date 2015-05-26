@@ -1,0 +1,151 @@
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.template.response import TemplateResponse
+from clinic.models import Clinic
+from doctor.models import Doctor
+from patient.models import Patient
+from appointment.models import Appointment
+from django.http import *
+import datetime
+from django.core import serializers
+from django.contrib.auth.decorators import user_passes_test, login_required
+import time
+import json
+import pytz
+from django.contrib.auth.decorators import user_passes_test, login_required
+
+def list_by_doctor(request, doctorid):
+	allow = False
+	doctor = None
+	if request.user.is_authenticated():
+		if request.user.is_staff:
+			allow = True
+		else:
+			try:
+				doctor = Doctor.objects.prefetch_related('doctor_appointments__patient__account', 'account').get(account=request.user)
+				if doctor.id == doctorid:
+					allow = True
+			except Doctor.DoesNotExist:
+				return HttpResponseBadRequest()
+	if allow:
+		if doctor == None:
+			try:
+				doctor = Doctor.objects.prefetch_related('doctor_appointments__patient__account', 'account').get(id=doctorid)
+			except Doctor.DoesNotExist:
+				return HttpResponseBadRequest()
+		return TemplateResponse(request, "appointment_list.html", {'staff': request.user.is_staff, 'doctor':doctor, 'appointments':doctor.doctor_appointments.all()})
+
+@login_required(login_url='/login')
+def make_appointment_page(request):
+	return TemplateResponse(request, "appointment_create.html")
+
+@login_required(login_url='/login')
+def make_appointment(request):
+	if request.method != "POST":
+		return HttpResponseNotAllowed(['POST'])
+		
+	if "type" not in request.POST or \
+		"city" not in request.POST or \
+		"date" not in request.POST or \
+		"timeslot" not in request.POST or	\
+		"doctor" not in request.POST:
+		return HttpResponseBadRequest()
+	
+	type = request.POST["type"]
+	city = request.POST["city"]
+	date = request.POST["date"]
+	timeslot = request.POST["timeslot"]
+	#get doctor
+	doctor = Doctor.objects.get(id=int(request.POST["doctor"]))
+	#get appointment time
+	day, month, year = map(int, date.split('/'))
+	hour, minute, second = map(int, timeslot.split(':'))
+	t = datetime.datetime(year, month, day, hour, minute, second, 0, pytz.UTC)
+	#get patient
+	patient = Patient.objects.get(account=request.user)
+	Appointment.objects.create(doctor=doctor, 
+								patient=patient, 
+								time_appointed=t)
+	return HttpResponse("/patient")
+
+@login_required(login_url='/login')
+def get_clinic(request, type):
+	clinics = Clinic.objects.prefetch_related("doctors", "location").filter(doctors__type=type)
+	cities = []
+	for clinic in clinics:
+		if clinic.location.city not in cities:
+			cities.append(clinic.location.city)
+	
+	return JsonResponse(json.dumps(cities), safe=False)
+
+@login_required(login_url='/login')
+def get_timeslot(request):
+	print "get_timeslot"
+	if not request.GET["type"] or \
+		not request.GET["city"] or \
+		not request.GET["date"]:
+		return HttpResponseBadRequest()
+		
+	type = int(request.GET["type"])
+	city = request.GET["city"]
+	date = request.GET["date"]
+	
+	doctors = Doctor.objects.prefetch_related("clinic__location", "doctor_appointments")	\
+							.filter(type=type)						\
+							.filter(clinic__location__city=city)
+	
+	timeslots = {}
+	num_doctor = len(doctors)
+	for t in range(9,17):
+		timeslots[datetime.time(t,0)] = num_doctor
+		timeslots[datetime.time(t,30)] = num_doctor
+		
+	day, month, year = map(int, date.split('/'))
+	date = datetime.date(year, month, day)
+	start = pytz.utc.localize(datetime.datetime.combine(date, datetime.time.min))
+	end = pytz.utc.localize(datetime.datetime.combine(date, datetime.time.max))
+	
+	for doctor in doctors:
+		appointments = doctor.doctor_appointments.filter(time_appointed__gte=start).filter(time_appointed__lte=end)
+		for appointment in appointments:
+			ta = appointment.time_appointed
+			
+			t = datetime.time(ta.hour, ta.minute)
+			print(ta)
+			if t in timeslots:
+				timeslots[t] = timeslots[t] - 1
+			
+	result = []
+	for t in sorted(timeslots):
+		if timeslots[t] > 0:
+			result.append({'time':str(t),'n':timeslots[t]})
+	
+	return JsonResponse(json.dumps(result), safe=False)
+	
+@login_required(login_url='/login')
+def get_doctor(request):
+	if not request.GET["type"] or \
+		not request.GET["city"] or \
+		not request.GET["date"] or \
+		not request.GET["timeslot"]:
+		return HttpResponseBadRequest()
+		
+	type = request.GET["type"]
+	city = request.GET["city"]
+	date = request.GET["date"]
+	timeslot = request.GET["timeslot"]
+	
+	day, month, year = map(int, date.split('/'))
+	hour, minute, second = map(int, timeslot.split(':'))
+	t = datetime.datetime(year, month, day, hour, minute, second, 0, pytz.UTC)
+		
+	doctors = Doctor.objects.prefetch_related("clinic__location", "doctor_appointments", "account", "clinic")	\
+							.filter(type=type)						\
+							.filter(clinic__location__city=city)	\
+							.exclude(doctor_appointments__time_appointed=t)
+	
+	result = []
+	for doctor in doctors:
+		result.append({'id':doctor.id, 'name': doctor.account.username, 'clinic': doctor.clinic.clinicName})
+	
+	return JsonResponse(json.dumps(result), safe=False)

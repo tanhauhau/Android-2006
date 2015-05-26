@@ -1,0 +1,29 @@
+package com.ce2006.project.model;
+
+import com.ce2006.project.localstorage.PreferenceManager;
+
+/**
+ * Class storing credentials of the user
+ * Created by lhtan on 3/4/15.
+ */
+public class Credential {
+    private String username;
+    private String password;
+
+    private Credential(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public static Credential getCredential(PreferenceManager preference) {
+        return new Credential(preference.getUserName(), preference.getPassword());
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}

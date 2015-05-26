@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MedKit</string>
+    <string name="label_login">Log In</string>
+    <string name="label_register">Register New Account</string>
+    <string name="label_view_appointment">View Appointment</string>
+    <string name="label_view_modify_appointment">View / Modify Appointments</string>
+    <string name="label_view_first_aid">First Aid</string>
+
+
+    <!-- main page -->
+    <string name="hello_welcome">Hello %s</string>
+
+    <!-- string array -->
+    <string-array name="countries">
+        <item>Singapore</item>
+        <item>Malaysia</item>
+        <item>Thailand</item>
+    </string-array>
+    <string-array name="clinic_type">
+        <item>General</item>
+        <item>Dental</item>
+        <item>Ear, Nose and Throat</item>
+        <item>Women\'s Health</item>
+    </string-array>
+    <string-array name="city">
+        <item>Sembawang</item>
+        <item>Ang Mo Kio</item>
+        <item>Bedok</item>
+        <item>Bukit Batok</item>
+        <item>Bishan</item>
+        <item>Chinatown</item>
+        <item>Woodlands</item>
+        <item>Hougang</item>
+        <item>Pasir Ris</item>
+        <item>Bukit Panjang</item>
+        <item>Bukit Merah</item>
+        <item>Newton</item>
+        <item>Yishun</item>
+        <item>Punggol</item>
+        <item>Tampines</item>
+        <item>Choa Chu Kang</item>
+        <item>Bukit Timah</item>
+        <item>Orchard</item>
+        <item>Sengkang</item>
+        <item>Changi</item>
+        <item>Clementi</item>
+        <item>Geylang</item>
+        <item>Jurong East</item>
+        <item>Kallang</item>
+        <item>Raffles Place</item>
+        <item>Jurong West</item>
+        <item>Marine Parade</item>
+        <item>Rochor</item>
+        <item>Queenstown</item>
+        <item>City Hall</item>
+        <item>Toa Payoh</item>
+        <item>Paya Lebar</item>
+        <item>Tanjong Pagar</item>
+        <item>Serangoon</item>
+    </string-array>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="title_activity_email_modifier">email_modifier</string>
+    <string name="title_activity_submit_new_particulars">submitNewParticulars</string>
+    <string name="title_activity_particular_help_page">particularHelpPage</string>
+
+    <string name="successful">SUCCESSFUL!</string>
+    <string name="new_appointment">Make New Appointment</string>
+    <string name="enter_location">Location of Clinic</string>
+    <string name="enter_type">Type of Appointment</string>
+    <string name="enter_date">Appointment Date</string>
+    <string name="enter_time">Appointment Time</string>
+    <string name="enter_doctor">Doctor</string>
+    <string name="menu_settings">Settings</string>
+
+    <!-- successful appointment -->
+    <string name="title_activity_appointment_successful">SUCCESSFUL</string>
+    <string name="successful_appointment">Your appointment details: </string>
+    <string name="clinic_name">Clinic</string>
+    <string name="clinic_address">Clinic Address</string>
+    <string name="clinic_contact">Clinic Contact</string>
+    <string name="doctor_name">Doctor</string>
+    <string name="appointment_date">Appointment Date</string>
+    <string name="appointment_time">Appointment Time</string>
+
+    <!-- basic label -->
+    <string name="location">Location of Clinic</string>
+
+    <!-- menu -->
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_make_appointment">MakeAppointmentActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>

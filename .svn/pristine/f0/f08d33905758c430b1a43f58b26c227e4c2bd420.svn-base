@@ -1,0 +1,53 @@
+<html>
+    <head>
+        {% load clinic_extras %}
+        {% load staticfiles %}
+        <link href="{% static 'css/uikit.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/components/accordion.css' %}" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="uk-grid">
+            <div class="uk-width-1-2 uk-container-center">
+                <h2>Clinic List</h2>
+                <div style="margin-bottom:5px;">
+                    {% if request.user and request.user.is_authenticated %}
+                    <a class="uk-button uk-button-danger" href="/logout">Log out</a>
+                    <a class="uk-button" href="/patient">Profile</a>
+                    {% else %}
+                    <a class="uk-button uk-button-primary" href="/signup">Register Account</a>
+                    <a class="uk-button uk-button-success" href="/login">Log In</a>
+                    {% endif %}
+                </div>
+                <div class="uk-accordion" data-uk-accordion>
+                    {% for clinic in clinics %}
+                    <h3 class="uk-accordion-title">{{ clinic.clinicName }}</h3>
+                    <div class="uk-accordion-content">
+                        <h4>Contact: {{ clinic.contact }}<br>Location: {{ clinic.location.address }}, {{ clinic.location.postalCode }}, {{ clinic.location.city }}, {{ clinic.location.country }}</h4>
+                        <h4>Doctors:</h4>
+
+                        {% regroup clinic.doctors.all by type as doctor_list %}
+                        <ul class="uk-list uk-list-line">
+                            {% for doctor in doctor_list %}
+                            <li>{{ doctor.grouper|doctor_type}} ({{doctor.list|length}})
+                                    <ul class="uk-list">
+                                        {% for d in doctor.list %}
+                                        <li>{{d.account.username}}</li>
+                                        {% endfor %}
+                                    </ul>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% empty %}
+                    <h4>No Clinic Currently</h4>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+    <script src="{% static 'script/jquery.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/uikit.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/components/accordion.min.js' %}" type="text/javascript"></script>
+</html>

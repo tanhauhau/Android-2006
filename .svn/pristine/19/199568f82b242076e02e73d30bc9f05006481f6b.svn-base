@@ -1,0 +1,55 @@
+package com.ce2006.project.activity.appointment;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.content.Intent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.user.ce2006_project.R;
+
+
+public class ActivitySelectAppointment extends Activity{
+
+    Button nextToModify;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_select_appointment);
+
+        nextToModify = (Button) findViewById(R.id.buttonToModify);
+        nextToModify.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), modify_appointment.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        // A list of sample appointments (actual appointments need to import from database + modify into string)
+        String[] appointmentArray = {"Appointment 1", "Appointment 2", "Appointment 3"};
+
+        ListView lv = (ListView) findViewById(R.id.appointment_list);
+        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.appointment_name, appointmentArray));
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView< ?> parent, View view, int position, long id) {
+
+                String appointmentName = ((TextView) view.findViewById(R.id.appointment_name)).getText().toString();
+
+                Toast.makeText(getApplicationContext(), appointmentName, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+}

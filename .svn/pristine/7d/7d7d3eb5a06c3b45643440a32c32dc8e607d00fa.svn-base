@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="MedKitTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MedKitActionBar</item>
+    </style>
+
+    <style name="MedKitActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#fff</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="BlueButton">
+        <item name="android:background">#261c4e</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:padding">3dp</item>
+    </style>
+</resources>

@@ -1,0 +1,71 @@
+package com.ce2006.project.model;
+
+import org.json.simple.JSONObject;
+
+import java.io.Serializable;
+
+/**
+ * Created by lhtan on 31/3/15.
+ */
+public class Doctor implements Serializable {
+    private Long id;
+    private String name;
+    private int type;
+    private Clinic clinic;
+    private String string;
+    private String email;
+
+    public static Doctor parseFromJson(JSONObject jsonObject){
+        Doctor doctor = new Doctor();
+        if(jsonObject.containsKey("id")) doctor.id = (Long) jsonObject.get("id");
+        if(jsonObject.containsKey("name")) doctor.name = (String) jsonObject.get("name");
+        if(jsonObject.containsKey("type")) doctor.type = ((Long) jsonObject.get("type")).intValue();
+        if(jsonObject.containsKey("clinic")) doctor.clinic = Clinic.parseFromJson((JSONObject) jsonObject.get("clinic"));
+        if(jsonObject.containsKey("email")) doctor.email = (String) jsonObject.get("email");
+        if (doctor.clinic != null) {
+            doctor.string = new StringBuilder(doctor.name)
+                    .append(" (")
+                    .append(doctor.getClinic().getName())
+                    .append(")")
+                    .toString();
+        }else{
+            doctor.string = doctor.name;
+        }
+        return doctor;
+    }
+    private Doctor(){}
+
+    public Long getId() {
+        return id;
+    }
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String toString() {
+        return string;
+    }
+}
+
+
+
+
+

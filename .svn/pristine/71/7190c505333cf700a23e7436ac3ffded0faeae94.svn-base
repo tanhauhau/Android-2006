@@ -1,0 +1,183 @@
+package com.ce2006.project.activity;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ce2006.project.server.Particulars;
+import com.example.user.ce2006_project.R;
+
+
+public class SignUpFragment extends Fragment implements View.OnClickListener {
+    private EditText txtName, txtPassword1, txtPassword2, txtEmail, txtContact, txtAddress, txtCity, txtPostal, txtCountry;
+    private Button buttonSubmit, buttonLogin;
+    private Switch switchType;
+    private SignUpTask particularTask = null;
+    private ProgressBar progressBar;
+    private AuthActiviyListener listener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        activity.setTitle(R.string.label_register);
+        try{
+            listener = (AuthActiviyListener) activity;
+        }catch(Exception e){}
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_sign_up, null);
+        txtName = (EditText) view.findViewById(R.id.txtName);
+        txtPassword1 = (EditText) view.findViewById(R.id.txtPassword1);
+        txtPassword2 = (EditText) view.findViewById(R.id.txtPassword2);
+        txtEmail = (EditText) view.findViewById(R.id.txtEmail);
+        txtContact = (EditText) view.findViewById(R.id.txtContact);
+        txtAddress = (EditText) view.findViewById(R.id.txtAddress);
+        txtCity = (EditText) view.findViewById(R.id.txtCity);
+        txtPostal = (EditText) view.findViewById(R.id.txtPostal);
+        txtCountry = (EditText) view.findViewById(R.id.txtCountry);
+        buttonSubmit = (Button) view.findViewById(R.id.btnSubmit);
+        buttonSubmit.setOnClickListener(this);
+        buttonLogin = (Button) view.findViewById(R.id.btnLogin);
+        buttonLogin.setOnClickListener(this);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        switchType = (Switch) view.findViewById(R.id.switchType);
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == buttonSubmit) {
+            boolean emptyField = false;
+            TextView focusTo = null;
+            buttonSubmit.setEnabled(false);
+            if (txtName.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtName;
+            }
+            if (txtPassword1.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtPassword1;
+            }
+            if (txtPassword2.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtPassword2;
+            }
+            if (txtEmail.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtEmail;
+            }
+            if (txtContact.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtContact;
+            }
+            if (txtAddress.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtAddress;
+            }
+            if (txtCity.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtCity;
+            }
+            if (txtPostal.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtPostal;
+            }
+            if (txtCountry.getText().toString().isEmpty()) {
+                emptyField = true;
+                focusTo = txtCountry;
+            }
+            if (emptyField) {
+                focusTo.requestFocus();
+                Toast.makeText(getActivity(), "Field should not be empty!", Toast.LENGTH_LONG).show();
+                buttonSubmit.setEnabled(true);
+                return;
+            }
+            if (!txtPassword2.getText().toString().equals(txtPassword1.getText().toString())) {
+                txtPassword2.requestFocus();
+                Toast.makeText(getActivity(), "Password not the same!", Toast.LENGTH_LONG).show();
+                buttonSubmit.setEnabled(true);
+                return;
+            }
+            particularTask = new SignUpTask(getActivity());
+            particularTask.execute(txtName.getText().toString(),
+                    txtPassword1.getText().toString(),
+                    txtEmail.getText().toString(),
+                    txtContact.getText().toString(),
+                    txtAddress.getText().toString(),
+                    txtCity.getText().toString(),
+                    txtPostal.getText().toString(),
+                    txtCountry.getText().toString(),
+                    switchType.isChecked()?"1":"0");
+        }else if (v == buttonLogin){
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, new LogInFragment())
+                    .commit();
+        }
+    }
+
+    private class SignUpTask extends AsyncTask<String, Void, Boolean> {
+        private Context context;
+        private String name, password;
+
+        private SignUpTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            listener.startProgress();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            if(params.length != 9){
+                return false;
+            }else {
+                name = params[0];
+                password = params[1];
+                String email = params[2];
+                String contact = params[3];
+                String address = params[4];
+                String city = params[5];
+                String postal = params[6];
+                String country = params[7];
+                String type = params[8];
+                return Particulars.createParticulars(name, password, email, contact, country, city, address, postal, type);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if(!success) {
+                txtName.requestFocus();
+                Toast.makeText(context, "There is already an account associated with the name!", Toast.LENGTH_LONG).show();
+                buttonSubmit.setEnabled(true);
+            }else{
+                Toast.makeText(context, "Successfully Signup!", Toast.LENGTH_LONG).show();
+            }
+
+            progressBar.setVisibility(View.INVISIBLE);
+            listener.stopProgress();
+            listener.endsWithResults(success, name, password);
+        }
+    }
+}

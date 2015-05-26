@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="medium_text">
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">@dimen/abc_text_size_large_material</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+</resources>

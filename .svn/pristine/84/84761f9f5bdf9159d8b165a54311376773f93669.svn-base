@@ -1,0 +1,50 @@
+package com.ce2006.project.server;
+
+import org.json.JSONObject;
+
+/**
+ * Created by lhtan on 24/3/15.
+ */
+public class Particulars {
+    public static boolean createParticulars(String name, String password, String email, String contact, String country, String city, String address, String postal_code) {
+        Server server = new Server("/signup/submit", true);
+        server.data("name", name);
+        server.data("birthday", "1/1/1993");
+        server.data("password", password);
+        server.data("password2", name);
+        server.data("phone", contact);
+        server.data("email", email);
+        server.data("address", address);
+        server.data("postal", postal_code);
+        server.data("city", city);
+        server.data("country", country);
+        String results = server.execute();
+        if(results == null) {
+            //signup failed
+            //assume username used by others
+            return false;
+        }
+        return true;
+    }
+    public static boolean updateParticulars(String name, String password, String email, String contact, String country, String city, String address, String postal_code) {
+        Server server = new Server("/patient/edit/submit", true);
+        server.data("username", name);
+        server.data("birthday", "1/1/1993");
+        server.data("password", password);
+        server.data("phone", contact);
+        server.data("email", email);
+        server.data("address", address);
+        server.data("postal", postal_code);
+        server.data("city", city);
+        server.data("country", country);
+        String results = server.execute();
+        if(results == null) {
+            //update failed
+            return false;
+        }
+        return true;
+    }
+    public boolean checkUsernamePassword(String name, String password){
+        return true;
+    }
+}

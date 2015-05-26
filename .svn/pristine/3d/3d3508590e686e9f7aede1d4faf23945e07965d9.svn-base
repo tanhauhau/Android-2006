@@ -1,0 +1,85 @@
+package com.ce2006.project.model;
+
+import java.util.*;
+/**
+ * Created by GraceChristina on 24/2/2015.
+ */
+public class User_Particulars{
+    private String name;
+//    private Date date_of_birth;
+    private boolean contact_type; // email -> true; sms -> false;
+    private String contact_number;
+    private String email;
+    private String address, postal, city, country;
+
+    public User_Particulars(String name, boolean contact_type, String contact_number, String email, String address, String postal, String city, String country) {
+        this.name = name;
+        this.contact_type = contact_type;
+        this.contact_number = contact_number;
+        this.email = email;
+        this.address = address;
+        this.postal = postal;
+        this.city = city;
+        this.country = country;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isContactType() {
+        return contact_type;
+    }
+
+    public String getContactNumber() {
+        return contact_number;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPostal() {
+        return postal;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setContact_type(boolean contact_type) {
+        this.contact_type = contact_type;
+    }
+
+    public void setContact_number(String contact_number) {
+        this.contact_number = contact_number;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPostal(String postal) {
+        this.postal = postal;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+}

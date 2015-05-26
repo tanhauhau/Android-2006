@@ -1,0 +1,89 @@
+package com.ce2006.project.activity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.ce2006.project.activity.account.ModifyPasswordActivity;
+import com.ce2006.project.activity.account.NewAdminActivity;
+import com.ce2006.project.activity.clinic.NewClinicActivity;
+import com.ce2006.project.activity.clinic.ViewModifyClinicActivity;
+import com.ce2006.project.activity.doctor.NewDoctorActivity;
+import com.ce2006.project.activity.doctor.ViewModifyDoctorActivity;
+import com.ce2006.project.localstorage.PreferenceManager;
+import com.example.user.ce2006_project.R;
+
+/**
+ * Admin's main activity
+ * Created by lhtan on 4/4/15.
+ */
+public class AdminMainActivity extends ActionBarActivity implements View.OnClickListener {
+    Button btnMakeClinic, btnChangeClinic, btnAddAdmin, btnLogout, btnChangePassword, btnMakeDoctor, btnChangeDoctor;
+    TextView txtName;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main_admin);
+        btnMakeClinic = (Button) findViewById(R.id.btnMakeClinic);
+        btnChangeClinic = (Button) findViewById(R.id.btnChangeClinic);
+        btnMakeDoctor = (Button) findViewById(R.id.btnMakeDoctor);
+        btnChangeDoctor = (Button) findViewById(R.id.btnChangeDoctor);
+        btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
+        btnAddAdmin = (Button) findViewById(R.id.btnAddAdmin);
+
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+
+
+        btnMakeClinic.setOnClickListener(this);
+        btnChangeClinic.setOnClickListener(this);
+        btnMakeDoctor.setOnClickListener(this);
+        btnChangeDoctor.setOnClickListener(this);
+        btnChangePassword.setOnClickListener(this);
+        btnAddAdmin.setOnClickListener(this);
+        btnLogout.setOnClickListener(this);
+        txtName = (TextView) findViewById(R.id.txtName);
+
+        PreferenceManager manager = PreferenceManager.getManager(this);
+        txtName.setText(String.format(getString(R.string.hello_welcome), manager.getUserName()));
+    }
+
+    /**
+     * Redirect to respective activities
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        if (v == btnMakeClinic) {
+            startActivity(new Intent(this, NewClinicActivity.class));
+        } else if (v == btnChangeClinic) {
+            startActivity(new Intent(this, ViewModifyClinicActivity.class));
+        } else if (v == btnMakeDoctor) {
+            startActivity(new Intent(this, NewDoctorActivity.class));
+        } else if (v == btnChangeDoctor) {
+            startActivity(new Intent(this, ViewModifyDoctorActivity.class));
+        } else if (v == btnChangePassword) {
+            startActivity(new Intent(this, ModifyPasswordActivity.class));
+        } else if (v == btnAddAdmin) {
+            startActivity(new Intent(this, NewAdminActivity.class));
+        } else if (v == btnLogout) {
+            PreferenceManager manager = PreferenceManager.getManager(this);
+            manager.clear();
+            setResult(MainActivity.RESULT_LOGOUT);
+            finish();
+        }
+    }
+
+    /**
+     * tell the main activity to finish
+     */
+    @Override
+    public void onBackPressed() {
+        setResult(MainActivity.RESULT_BACK);
+        super.onBackPressed();
+    }
+}

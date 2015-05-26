@@ -1,0 +1,174 @@
+package com.ce2006.project.model;
+
+import org.json.simple.JSONObject;
+
+import java.io.Serializable;
+
+/**
+ * Appointment Class
+ * - Storing id, doctor, clinicAddress, clinicContact,
+ * appointment time (hour, minute), appointment date(year, month, date),
+ * and note on the appointment
+ * <p/>
+ * Created by li hau on 31/3/15.
+ */
+public class Appointment implements Serializable {
+    private long id;
+    private Patient patient;
+    private Doctor doctor;
+    private int hour, minute;
+    private int year, month, date;
+    private String dateString, timeString;
+    private String note;
+
+    public static Appointment parseFromJson(JSONObject obj){
+        Appointment appointment = new Appointment();
+        if (obj.containsKey("doctor")) appointment.doctor = Doctor.parseFromJson((JSONObject) obj.get("doctor"));
+        if (obj.containsKey("patient")) appointment.patient = Patient.parseFromJson((JSONObject) obj.get("patient"));
+        if (obj.containsKey("id")) appointment.id = (Long) obj.get("id");
+        if (obj.containsKey("time")) appointment.setTimeString((String) obj.get("time"));
+        if (obj.containsKey("date")) appointment.setDateString((String) obj.get("date"));
+        if (obj.containsKey("note")) appointment.note = (String) obj.get("note");
+        return appointment;
+    }
+
+    private Appointment(){}
+
+
+    /**
+     * *********************
+     * Getters
+     * **********************
+     */
+
+    public long getId() {
+        return id;
+    }
+
+    public String getClinicName() {
+        return doctor.getClinic().getName();
+    }
+
+    public String getClinicAddress() {
+        return doctor.getClinic().getLocation().getAddress();
+    }
+
+    public String getClinicContact() {
+        return doctor.getClinic().getContact();
+    }
+
+    public String getDoctorName() {
+        return doctor.getName();
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public Clinic getClinic() {
+        return doctor.getClinic();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Appointment at %s %s", getDateString(), getTimeString());
+    }
+
+    /**
+     * setting the date of the appointment
+     *
+     * @param date date string in format yyyy-MM-dd
+     */
+    public void setDateString(String date) {
+        if(date.contains("-")) {
+            String[] d = date.split("-");
+            this.year = Integer.parseInt(d[0]);
+            this.month = Integer.parseInt(d[1]);
+            this.date = Integer.parseInt(d[2]);
+        }else {
+
+        }
+        this.dateString = date;
+    }
+
+    public String getTimeString() {
+        return timeString;
+    }
+
+    /**
+     * setting the time of the appointment
+     *
+     * @param time time string in format hh:mm:ss
+     */
+    public void setTimeString(String time) {
+        String[] t = time.split(":");
+        this.hour = Integer.parseInt(t[0]);
+        this.minute = Integer.parseInt(t[1]);
+        this.timeString = time;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+
+    /**
+     * *********************
+     * Setter
+     * ***********************
+     */
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDate() {
+        return date;
+    }
+
+    /**
+     * setting the date of the appointment
+     *
+     * @param year
+     * @param month
+     * @param date
+     */
+    public void setDate(int year, int month, int date) {
+        this.year = year;
+        this.month = month;
+        this.date = date;
+        this.dateString = String.format("%d-%02d-%02d", year, month, date);
+    }
+
+    /**
+     * setting the time of the appointment
+     *
+     * @param hour
+     * @param minute
+     */
+    public void setTime(int hour, int minute) {
+        this.hour = hour;
+        this.minute = minute;
+        this.timeString = String.format("%02d:%02d:00", hour, minute);
+    }
+}

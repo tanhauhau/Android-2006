@@ -1,0 +1,125 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.user.ce2006_project.modifier">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/modifyEmailLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Enter your new email address"
+            android:id="@+id/modifyEmail"
+            android:layout_marginTop="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/modifyContactLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Enter your new contact number"
+                android:id="@+id/modifyContact"
+                android:layout_marginTop="50dp"
+                android:layout_below="@+id/modifyEmailLayout"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/modifyCountryLayout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Enter the country"
+                    android:id="@+id/modifyCountry"
+                    android:layout_below="@+id/modifyContact"
+                    android:layout_alignLeft="@+id/modifyContact"
+                    android:layout_alignStart="@+id/modifyContact"
+                    android:layout_marginTop="50dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/modifyCityLayout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Enter your city"
+                        android:id="@+id/modifyCity"
+                        android:layout_below="@+id/modifyCountry"
+                        android:layout_alignLeft="@+id/modifyCountry"
+                        android:layout_alignStart="@+id/modifyCountry"
+                        android:layout_marginTop="25dp"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/modifyAddressLayout">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Enter your address"
+                            android:id="@+id/modifyAddress"
+                            android:layout_below="@+id/modifyCity"
+                            android:layout_alignLeft="@+id/modifyCity"
+                            android:layout_alignStart="@+id/modifyCity"
+                            android:layout_marginTop="25dp"/>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/modifyPostal_codeLayout">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Enter your postal code"
+                                android:id="@+id/modifyPostal_code"
+                                android:layout_below="@+id/modifyAddress"
+                                android:layout_alignLeft="@+id/modifyAddress"
+                                android:layout_alignStart="@+id/modifyAddress"
+                                android:layout_marginTop="25dp"/>
+                        </LinearLayout>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="submit"
+                            android:id="@+id/submitDetails"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="75dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+<!-- From: file:/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/src/main/res/layout/activity_modifier.xml -->

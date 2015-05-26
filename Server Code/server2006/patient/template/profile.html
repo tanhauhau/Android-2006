@@ -1,0 +1,35 @@
+<html>
+    <head>
+        {% load staticfiles %}
+        <link href="{% static 'css/uikit.css' %}" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="uk-grid">
+            <div class="uk-width-1-2 uk-container-center">
+                <h2>{{patient.account.username}}</h2>
+                
+                <dl class="uk-description-list-horizontal">
+                    <dt>Date of Birth</dt>
+                    <dd>{{patient.birthday}}</dd>
+                </dl>
+                <h4>Contact Details</h4>
+                <dl class="uk-description-list-horizontal">
+                    <dt>Phone Number</dt>
+                    <dd>{{patient.phoneNumber}}</dd>
+                    <dt>Email</dt>
+                    <dd>{{patient.account.email}}</dd>
+                    <dt>Contact Via</dt>
+                    <dd>{% if patient.type == 0 %}Phone{% else %}Email{% endif %}</dd>
+                    <dt>Address</dt>
+                    <dd>{{patient.address.address}}, {{patient.address.postalCode}}, {{patient.address.city}}, {{ patient.address.country}}</dd>
+                </dl>
+                <a class="uk-button" href="/patient/edit">Edit</a>
+                <a class="uk-button" href="/clinic/list">Clinic List</a>
+                <a class="uk-button" href="/appointment/make">Add Appointment</a>
+                <a class="uk-button uk-button-danger" href="/logout">Logout</a>
+            </div>
+        </div>
+    </body>
+    <script src="{% static 'script/jquery.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/uikit.min.js' %}" type="text/javascript"></script>
+</html>

@@ -1,0 +1,71 @@
+package com.ce2006.project.activity.appointment;
+
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.os.Bundle;
+import android.widget.DatePicker;
+
+import java.util.Calendar;
+
+/**
+ * DatePickerFragment
+ * <p/>
+ * A Date Picker Fragment that only allow user to pick from
+ * Today + 2 days until Today + 1 month
+ * Call DatePickerFragment::getDatePicker(DatePickerDialog.OnDateSetListener)
+ * factory method to create this fragment
+ */
+public class DatePickerFragment extends DialogFragment {
+    static final String YEAR = "year";
+    static final String MONTH = "month";
+    static final String DAY = "day";
+    private DatePickerDialog.OnDateSetListener listener;
+
+    /**
+     * Factory method to create the fragment
+     *
+     * @param listener listener that observes when the user picks a date from the date picker
+     * @return an instance of this fragment
+     */
+    public static DatePickerFragment getDatePicker(DatePickerDialog.OnDateSetListener listener) {
+        DatePickerFragment fragment = new DatePickerFragment();
+        fragment.listener = listener;
+        return fragment;
+    }
+
+
+    /**
+     * Set the range of the date picker to
+     * [today + 2 day, today + 1 month]
+     * Set the date picker to show default value, which is pass by
+     * Fragment::setArguments()
+     *
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        //init
+        Bundle bundle = getArguments();
+        final Calendar c = Calendar.getInstance();
+        final int year = bundle.getInt(YEAR, c.get(Calendar.YEAR));
+        final int month = bundle.getInt(MONTH, c.get(Calendar.MONTH));
+        final int day = bundle.getInt(DAY, c.get(Calendar.DAY_OF_MONTH));
+        //set picker limit
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), listener, year, month, day);
+        DatePicker picker = dialog.getDatePicker();
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        Calendar nextMonth = Calendar.getInstance();
+        nextMonth.setTime(today.getTime());
+        nextMonth.add(Calendar.MONTH, 1);
+        today.add(Calendar.DAY_OF_MONTH, 2);
+        picker.setMinDate(today.getTimeInMillis());
+        picker.setMaxDate(nextMonth.getTimeInMillis());
+        return dialog;
+    }
+}

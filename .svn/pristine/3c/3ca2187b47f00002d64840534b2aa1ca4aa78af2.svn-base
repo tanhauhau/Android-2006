@@ -1,0 +1,46 @@
+package com.ce2006.project.activity.appointment;
+
+import android.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.ce2006.project.model.Appointment;
+import com.ce2006.project.server.AppointmentBuilder;
+import com.example.user.ce2006_project.R;
+
+/**
+ * Created by lhtan on 1/4/15.
+ */
+public class FollowupAppointmentFragment extends Fragment implements ViewAppointmentListFragment.Listener {
+
+    private AppointmentBuilder appointmentBuilder;
+
+    public static FollowupAppointmentFragment getFragment(AppointmentBuilder appointmentBuilder) {
+        FollowupAppointmentFragment fragment = new FollowupAppointmentFragment();
+        fragment.appointmentBuilder = appointmentBuilder;
+        return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_container, null);
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getFragmentManager()
+                .beginTransaction()
+                .addToBackStack("follow_list")
+                .add(R.id.frag_container, ViewAppointmentListFragment.getFragment(appointmentBuilder, this))
+                .commit();
+    }
+
+    @Override
+    public void appointmentSelected(Appointment appointment) {
+
+    }
+}

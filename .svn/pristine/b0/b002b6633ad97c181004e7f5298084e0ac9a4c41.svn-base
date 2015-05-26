@@ -1,0 +1,39 @@
+package com.example.user.ce2006_project;
+
+import java.util.Date;
+
+/**
+ * Created by User on 27/2/2015.
+ */
+public class Schedule {
+    private Date[] appointment_times;
+    private int app_type;
+    private int clinic_id;
+
+
+    public void setApp_type(int app_type) {
+        this.app_type = app_type;
+    }
+
+    public void setClinic_id(int clinic_id) {
+        this.clinic_id = clinic_id;
+    }
+
+    public void setAppointment_times(Date[] appointment_times) {
+        this.appointment_times = appointment_times;
+    }
+
+    public Date[] getAppointment_times() {
+        return appointment_times;
+    }
+
+    public int getApp_type() {
+        return app_type;
+    }
+
+    public int getClinic_id() {
+        return clinic_id;
+    }
+}
+
+

@@ -1,0 +1,85 @@
+package com.example.user.ce2006_project;
+
+import java.util.Scanner;
+
+/**
+ * Created by User on 24/2/2015.
+ */
+public class Location {
+    private City city;
+    private Country country;
+    private Address address;
+    private Postal_code postal_code;
+
+    public Location(){      //default constructor
+        city.setCityname(null);
+        country.setCountry_name(null);
+        address.setAddress(null);
+        postal_code.setPostal_code(null);
+    }
+
+    public Location(String new_city, String new_country,String new_address,String new_postal_code){
+
+
+        city.setCityname(new_city);
+        country.setCountry_name(new_country);
+        address.setAddress(new_address);
+        postal_code.setPostal_code(new_postal_code);
+
+    }
+
+    public Country getCountry(){
+        return country;
+    }
+
+    public City getCity(){
+        return city;
+    }
+
+    public Address getAddress(){
+        return address;
+    }
+
+
+    public Postal_code getPostal_Code(){
+        return postal_code;
+    }
+
+    public void setCity(String new_city){
+        city.setCityname(new_city);
+    }
+
+    public void setCountry(String new_country){
+        country.setCountry_name(new_country);
+    }
+
+    public void setAddress(String new_address){
+        address.setAddress(new_address);
+    }
+    public void setPostal_code(String new_postal_code){
+        postal_code.setPostal_code(new_postal_code);
+    }
+
+    public void setLocation(){
+        String new_city, new_country, new_address, new_postal_code;
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Enter city name");
+        new_city= scan.nextLine();
+
+        System.out.println("Enter country name");
+        new_country= scan.nextLine();
+
+        System.out.println("Enter address name");
+        new_address= scan.nextLine();
+
+        System.out.println("Enter postal code");
+        new_postal_code= scan.nextLine();
+
+
+        city.setCityname(new_city);
+        country.setCountry_name(new_country);
+        address.setAddress(new_address);
+        postal_code.setPostal_code(new_postal_code);
+    }
+}

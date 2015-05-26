@@ -1,0 +1,156 @@
+package com.ce2006.project.activity.appointment;
+
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.ce2006.project.localstorage.PreferenceManager;
+import com.ce2006.project.model.Appointment;
+import com.ce2006.project.model.Credential;
+import com.ce2006.project.server.AppointmentBuilder;
+import com.example.user.ce2006_project.R;
+
+
+public class ViewModifyAppointmentActivity extends ActionBarActivity implements ViewAppointmentListFragment.Listener, ModifyAppointmentFragment.Listener, FragmentManager.OnBackStackChangedListener {
+
+    private AppointmentBuilder appointmentBuilder;
+    private boolean showEdit;
+    private Appointment currentAppointment;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_container);
+
+        PreferenceManager preferenceManager = PreferenceManager.getManager(this);
+        Credential credential = Credential.getCredential(preferenceManager);
+        appointmentBuilder = new AppointmentBuilder(credential);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.get("appointment") != null) {
+            Appointment appointment = (Appointment) extras.get("appointment");
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, ViewAppointmentListFragment.getFragment(appointmentBuilder), "list")
+                    .addToBackStack("list")
+                    .commit();
+            appointmentSelected(appointment);
+            showEdit = true;
+        } else {
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, ViewAppointmentListFragment.getFragment(appointmentBuilder), "list")
+                    .addToBackStack("list")
+                    .commit();
+            showEdit = false;
+        }
+        getFragmentManager().addOnBackStackChangedListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 1) {
+            getFragmentManager().popBackStack();
+            showEdit = !showEdit;
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (showEdit) {
+            switch (item.getItemId()) {
+                case R.id.action_edit:
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, ModifyAppointmentFragment.getFragment(currentAppointment, appointmentBuilder), "edit")
+                            .addToBackStack("edit")
+                            .commit();
+                    showEdit = false;
+                    return true;
+                case R.id.action_delete:
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+                    alert.setTitle("Cancel Appointment");
+                    alert.setMessage("Are you sure you want to cancel the appointment?");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            deleteCurrentAppointment();
+                            onBackPressed();
+                        }
+                    });
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    });
+                    alert.show();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteCurrentAppointment() {
+        AppointmentTask task = new AppointmentTask(
+                null, new AppointmentTask.AppointmentTaskCommand() {
+            @Override
+            public Object execute() {
+                return appointmentBuilder.delete(currentAppointment);
+            }
+        }, new AppointmentTask.AppointmentTaskListener() {
+            @Override
+            public void taskStart(AppointmentTask task) {
+            }
+
+            @Override
+            public void taskEnd(AppointmentTask task, Object obj) {
+            }
+        });
+        task.execute();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (showEdit) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_list_modify, menu);
+            Log.d("Tan", "menu: " + menu.size());
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void appointmentSelected(Appointment appointment) {
+        currentAppointment = appointment;
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, ViewAppointmentFragment.getFragment(appointment), "detail")
+                .addToBackStack("detail")
+                .commit();
+        showEdit = true;
+
+    }
+
+    @Override
+    public void appointmentModified(final Appointment appointment) {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        invalidateOptionsMenu();
+        //force refresh
+        Fragment frag = getFragmentManager().findFragmentByTag(getFragmentManager()
+                .getBackStackEntryAt(getFragmentManager().getBackStackEntryCount() - 1)
+                .getName());
+        if (frag != null) frag.onResume();
+    }
+}

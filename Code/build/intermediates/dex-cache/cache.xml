@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/classes-4c95e62831c30f4028ccfedfe811fbf4add9922a.jar" />
+    </item>
+    <item
+        jar="/Users/lhtan/.gradle/caches/modules-2/files-2.1/com.googlecode.json-simple/json-simple/1.1.1/c9ad4a0850ab676c5c64461a05ca524cdfff59f1/json-simple-1.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c9ad4a0850ab676c5c64461a05ca524cdfff59f1">
+        <dex dex="/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/json-simple-1.1.1-77a98eddf904cbc8dd698685ca1e24c2f1370bd9.jar" />
+    </item>
+    <item
+        jar="/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-a921e3818a2f0f8d8d3996ace8eb7ecff71f6ab5.jar" />
+    </item>
+    <item
+        jar="/Users/lhtan/android-sdks/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-414c7ff2e34cd201f95175223de2cc37366f92f8.jar" />
+    </item>
+    <item
+        jar="/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/classes-b74de42f3f98c9fb00388af86a8797dc2eeda043.jar" />
+    </item>
+
+</items>

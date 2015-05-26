@@ -1,0 +1,19 @@
+package com.ce2006.project.activity.appointment;
+
+import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import com.example.user.ce2006_project.R;
+
+
+public class ActivityAppointmentSucessful extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_appointment_successful);
+    }
+}

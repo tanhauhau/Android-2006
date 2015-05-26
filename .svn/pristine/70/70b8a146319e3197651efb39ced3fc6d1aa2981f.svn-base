@@ -1,0 +1,28 @@
+package com.ce2006.project.model;
+
+/**
+ * Created by lhtan on 2/4/15.
+ */
+public class Clinic {
+    private Long id;
+    private String name;
+    private String contact;
+
+    public Clinic(Long id, String name, String contact) {
+        this.id = id;
+        this.name = name;
+        this.contact = contact;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+}

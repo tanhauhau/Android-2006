@@ -1,0 +1,6 @@
+/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/classes/debug
+/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-414c7ff2e34cd201f95175223de2cc37366f92f8.jar
+/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/json-simple-1.1.1-77a98eddf904cbc8dd698685ca1e24c2f1370bd9.jar
+/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-a921e3818a2f0f8d8d3996ace8eb7ecff71f6ab5.jar
+/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/classes-b74de42f3f98c9fb00388af86a8797dc2eeda043.jar
+/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/build/intermediates/pre-dexed/debug/classes-4c95e62831c30f4028ccfedfe811fbf4add9922a.jar

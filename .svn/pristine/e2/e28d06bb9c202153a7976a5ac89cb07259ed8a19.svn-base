@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#bfb7e6"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnNewAppointment"
+        style="@style/BlueButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:text="New Appointment" />
+
+    <Button
+        android:id="@+id/btnReferral"
+        style="@style/BlueButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:text="Referral" />
+
+    <Button
+        android:id="@+id/btnFollowUp"
+        style="@style/BlueButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:text="Follow Up" />
+</LinearLayout>

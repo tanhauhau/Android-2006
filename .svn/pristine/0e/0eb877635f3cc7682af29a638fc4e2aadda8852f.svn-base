@@ -1,0 +1,33 @@
+package com.example.user.ce2006_project;
+
+/**
+ * Created by GraceChristina on 24/2/2015.
+ */
+public class User {
+    private User_Account user_acct;
+    private User_Particulars user_particulars;
+
+    public User (){
+        user_acct=null;
+        user_particulars=null;
+    }
+
+    public boolean validateUser(String username, String password){
+        /*retrieve acct first, from database do some research cause we don't know how to do yet*/
+
+        if((username==user_acct.getUsername())&&(password==user_acct.getPassword()))
+            return true;
+        else
+            return false;
+    }
+
+    public void createNewUser(){
+        user_particulars.setNewParticulars();
+        user_acct.createAccount();
+
+    }
+
+    public void modifyParticulars(){
+        // modify contact, email address, and address and update db
+    }
+}

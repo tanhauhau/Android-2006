@@ -1,0 +1,56 @@
+package com.ce2006.project.activity.doctor;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.ce2006.project.adapter.AppointmentArrayAdapter;
+import com.ce2006.project.localstorage.PreferenceManager;
+import com.ce2006.project.model.Appointment;
+import com.ce2006.project.model.Credential;
+import com.ce2006.project.server.DoctorManager;
+import com.example.user.ce2006_project.R;
+
+
+/**
+ * Created by lhtan on 31/3/15.
+ */
+public class ViewDoctorAppointmentActivity extends ActionBarActivity implements View.OnClickListener {
+
+    private Appointment appointment;
+    private Button btnRemind;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_appointment_doctor_view);
+
+        appointment = (Appointment) getIntent().getSerializableExtra(ViewDoctorAppointmentListActivity.APPOINTMENT);
+        TextView txtPatientName = (TextView) findViewById(R.id.txtPatientName);
+        TextView txtAppointmentDate = (TextView) findViewById(R.id.txtAppointmentDate);
+        TextView txtAppointmentTime = (TextView) findViewById(R.id.txtAppointmentTime);
+        TextView txtNote = (TextView) findViewById(R.id.txtNote);
+
+        txtPatientName.setText(appointment.getPatient().getName());
+        txtAppointmentDate.setText(appointment.getDateString());
+        txtAppointmentTime.setText(appointment.getTimeString());
+        txtNote.setText(appointment.getNote());
+
+        btnRemind = (Button) findViewById(R.id.btnRemind);
+        btnRemind.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+}
+
+
+
+

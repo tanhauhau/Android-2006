@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.user.myapplication"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/MedKitTheme" >
+        <activity
+            android:name="com.ce2006.project.activity.MainActivity"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.account.AuthActivity"
+            android:label="@string/label_register"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.ce2006.project.activity.account.ModifyParticularActivity"
+            android:label="Update Particulars"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.ce2006.project.activity.appointment.MakeAppointmentActivity"
+            android:label="@string/label_make_appointment"
+            android:parentActivityName="com.ce2006.project.activity.PatientMainActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.ce2006.project.activity.appointment.ViewModifyAppointmentActivity"
+            android:label="@string/label_view_modify_appointment"
+            android:parentActivityName="com.ce2006.project.activity.PatientMainActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.ce2006.project.activity.firstaid.FirstAidActivity"
+            android:label="@string/label_view_first_aid" />
+        <activity
+            android:name="com.ce2006.project.activity.account.ModifyPasswordActivity"
+            android:label="@string/label_modify_password"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.PatientMainActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.ce2006.project.activity.MainActivity" >
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.AdminMainActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.ce2006.project.activity.MainActivity" >
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.DoctorMainActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.ce2006.project.activity.MainActivity" />
+        <activity
+            android:name="com.ce2006.project.activity.clinic.ViewModifyClinicActivity"
+            android:label="@string/label_view_modify_clinic"
+            android:parentActivityName="com.ce2006.project.activity.AdminMainActivity" >
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.clinic.NewClinicActivity"
+            android:label="@string/label_create_clinic"
+            android:parentActivityName="com.ce2006.project.activity.AdminMainActivity"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.doctor.ViewModifyDoctorActivity"
+            android:label="@string/label_view_modify_doctor"
+            android:parentActivityName="com.ce2006.project.activity.AdminMainActivity" />
+        <activity
+            android:name="com.ce2006.project.activity.doctor.NewDoctorActivity"
+            android:label="@string/label_create_doctor"
+            android:parentActivityName="com.ce2006.project.activity.AdminMainActivity" />
+        <activity
+            android:name="com.ce2006.project.activity.clinic.ChooseClinicActivity"
+            android:label="@string/label_choose_clinic" />
+        <activity
+            android:name="com.ce2006.project.activity.appointment.ChooseAppointmentActivity"
+            android:label="@string/label_choose_appointment" />
+        <activity
+            android:name="com.ce2006.project.activity.account.NewAdminActivity"
+            android:label="@string/label_new_admin"
+            android:parentActivityName="com.ce2006.project.activity.AdminMainActivity" />
+        <activity
+            android:name="com.ce2006.project.activity.HelpActivity"
+            android:label="@string/label_help" >
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.doctor.ViewDoctorAppointmentActivity"
+            android:label="@string/label_view_appointment"
+            android:parentActivityName="com.ce2006.project.activity.doctor.ViewDoctorAppointmentListActivity" >
+        </activity>
+        <activity
+            android:name="com.ce2006.project.activity.doctor.ViewDoctorAppointmentListActivity"
+            android:label="@string/label_view_appointment"
+            android:parentActivityName="com.ce2006.project.activity.DoctorMainActivity" />
+    </application>
+
+</manifest>

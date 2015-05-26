@@ -1,0 +1,16 @@
+package com.example.user.ce2006_project;
+
+/**
+ * Created by User on 24/2/2015.
+ */
+public class City {
+    private String cityname;
+
+    public String getCityname() {
+        return cityname;
+    }
+
+    public void setCityname(String cityname) {
+        this.cityname = cityname;
+    }
+}

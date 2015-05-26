@@ -1,0 +1,101 @@
+package com.example.user.ce2006_project;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+
+
+public class particular_modifier extends ActionBarActivity  {
+
+    ImageButton _home, _info;
+    Button _submit;
+    String _email, _contact, _country,_city, _address, _postal_code;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_particular_modifier);
+        EditText email = (EditText) findViewById(R.id.modifyEmail);
+        _email = email.getText().toString();
+        EditText contact = (EditText) findViewById(R.id.modifyContact);
+        _contact = contact.getText().toString();
+        EditText country = (EditText) findViewById(R.id.modifyCountry);
+        _country = country.getText().toString();
+        EditText city = (EditText) findViewById(R.id.modifyCity);//contd 2moro
+        _city = city.getText().toString();
+        EditText address = (EditText) findViewById(R.id.modifyAddress);
+        _address = address.getText().toString();
+        EditText  postal_code = (EditText) findViewById(R.id.modifyPostal_code);
+        _postal_code = postal_code.getText().toString();
+
+        _submit= (Button) findViewById(R.id.submit_Button);      //Submit button
+
+        _submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {                   //pass details to submit_new_particulars when submit button clicked
+                Intent intent = new Intent(getApplicationContext(), submit_new_particulars.class);
+                intent.putExtra("new_email", _email);
+                intent.putExtra("new_contact", _contact);
+                intent.putExtra("new_country", _country);
+                intent.putExtra("new_city", _city);
+                intent.putExtra("new_address", _address);
+                intent.putExtra("new_postal", _postal_code);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        _info = (ImageButton) findViewById(R.id.info_Button);       //Info button to display instructions for user
+
+        _info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {                   //go to particular_help_page when info button clicked
+                Intent intent = new Intent(getApplicationContext(), particular_help_page.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        /*
+        _home = (ImageButton) findViewById(R.id.home_Button);       //Home button for user to jump to main page
+
+        _info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {                   //go to home page when home button clicked
+                Intent intent = new Intent(particular_modifier.this, //mainpage//.class);
+
+            }
+        });*/
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_email_modifier, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+}

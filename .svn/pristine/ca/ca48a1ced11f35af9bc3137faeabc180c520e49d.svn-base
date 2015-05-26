@@ -1,0 +1,153 @@
+package com.ce2006.project.model;
+
+import java.io.Serializable;
+
+/**
+ * Appointment Class
+ * - Storing id, doctor, clinicAddress, clinicContact,
+ * appointment time (hour, minute), appointment date(year, month, date),
+ * and note on the appointment
+ * <p/>
+ * Created by li hau on 31/3/15.
+ */
+public class Appointment implements Serializable {
+    private long id;
+    private Doctor doctor;
+    private String clinicAddress;
+    private String clinicContact;
+    private int hour, minute;
+    private int year, month, date;
+    private String dateString, timeString;
+    private String note;
+
+    public Appointment(long id, Doctor doctor, String clinicAddress, String clinicContact, String time, String date, String note) {
+        this.id = id;
+        this.doctor = doctor;
+        this.clinicAddress = clinicAddress;
+        this.clinicContact = clinicContact;
+        this.note = note;
+        //parse date time
+        setDateString(date);
+        setTimeString(time);
+    }
+
+    /**
+     * *********************
+     * Getters
+     * **********************
+     */
+
+    public long getId() {
+        return id;
+    }
+
+    public String getClinicName() {
+        return doctor.getClinic();
+    }
+
+    public String getClinicAddress() {
+        return clinicAddress;
+    }
+
+    public String getClinicContact() {
+        return clinicContact;
+    }
+
+    public String getDoctorName() {
+        return doctor.getName();
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    /**
+     * setting the date of the appointment
+     *
+     * @param date date string in format yyyy-MM-dd
+     */
+    public void setDateString(String date) {
+        String[] d = date.split("-");
+        this.year = Integer.parseInt(d[0]);
+        this.month = Integer.parseInt(d[1]);
+        this.date = Integer.parseInt(d[2]);
+        this.dateString = date;
+    }
+
+    public String getTimeString() {
+        return timeString;
+    }
+
+    /**
+     * setting the time of the appointment
+     *
+     * @param time time string in format hh:mm:ss
+     */
+    public void setTimeString(String time) {
+        String[] t = time.split(":");
+        this.hour = Integer.parseInt(t[0]);
+        this.minute = Integer.parseInt(t[1]);
+        this.timeString = time;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+
+    /**
+     * *********************
+     * Setter
+     * ***********************
+     */
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDate() {
+        return date;
+    }
+
+    /**
+     * setting the date of the appointment
+     *
+     * @param year
+     * @param month
+     * @param date
+     */
+    public void setDate(int year, int month, int date) {
+        this.year = year;
+        this.month = month;
+        this.date = date;
+        this.dateString = String.format("%02d/%02d/%d", date, month, year);
+    }
+
+    /**
+     * setting the time of the appointment
+     *
+     * @param hour
+     * @param minute
+     */
+    public void setTime(int hour, int minute) {
+        this.hour = hour;
+        this.minute = minute;
+        this.timeString = String.format("%02d:%02d:00", hour, minute);
+    }
+}

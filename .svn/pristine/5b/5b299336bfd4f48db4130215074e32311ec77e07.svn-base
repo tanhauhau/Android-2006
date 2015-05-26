@@ -1,0 +1,188 @@
+package com.ce2006.project.activity.appointment;
+
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import java.util.ArrayList;
+import java.util.List;
+import android.app.Activity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.content.Context;
+import android.content.Intent;
+
+import java.util.Calendar;
+
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.widget.DatePicker;
+import android.widget.TextView;
+
+import com.ce2006.project.activity.CustomOnItemSelectedListener;
+import com.ce2006.project.server.Appointment;
+import com.example.user.ce2006_project.R;
+
+
+public class ActivityCreateAppointment extends Activity implements AdapterView.OnItemSelectedListener, OnClickListener{
+    Button button;
+
+    private static final int STATE_PROMPT_TYPE = 0;
+    private static final int STATE_PROMPT_LOCATION = 1;
+    private static final int STATE_PROMPT_DATE = 2;
+    private static final int STATE_PROMPT_TIME = 3;
+    private static final int STATE_PROMPT_DOCTOR = 4;
+    private int _currentState = 0;
+    private Appointment appointment;
+
+    private Spinner _spinnerReferral, _spinnerType, _spinnerLocation, _spinnerTime, _spinnerDoctor;
+    private Button _btnChooseDate, _btnSubmit;
+
+    static final int DATE_DIALOG_ID = 100;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_make_appointment);
+        _spinnerReferral = (Spinner) findViewById(R.id.spinnerReferral);
+        _spinnerType = (Spinner) findViewById(R.id.spinnerType);
+        _spinnerLocation = (Spinner) findViewById(R.id.spinnerLocation);
+        _spinnerTime = (Spinner) findViewById(R.id.spinnerTime);
+        _spinnerDoctor = (Spinner) findViewById(R.id.spinnerDoctor);
+
+
+
+        List<String> list = new ArrayList<String>();
+        list.add("GP");
+        list.add("Specialist");
+        list.add("Myself");
+//
+//        spinner2 = (Spinner) findViewById(R.id.spinner2);
+//        List<String> type = new ArrayList<String>();
+//        type.add("Dental");
+//        type.add("E&T");
+//        type.add("Child");
+//
+//        spinner3 = (Spinner) findViewById(R.id.spinner3);
+//        List<String> location = new ArrayList<String>();
+//        location.add("Ang Mo Kio");
+//        location.add("Boon Lay");
+//        location.add("Jurong East");
+//        location.add("Orchard");
+//        location.add("Tampines");
+//        location.add("Tanjong Pagar");
+//
+//
+//        spinner4 = (Spinner) findViewById(R.id.spinner4);
+//        List<String> list2 = new ArrayList<String>();
+//        list2.add("09.00 - 09.30");
+//        list2.add("09.30 - 10.00");
+//        list2.add("10.00 - 10.30");
+//        list2.add("10.30 - 11.00");
+//        list2.add("11.00 - 11.30");
+//        list2.add("11.30 - 12.00");
+//        list2.add("12.00 - 12.30");
+//        list2.add("12.30 - 13.00");
+//        list2.add("13.00 - 13.30");
+//        list2.add("13.30 - 14.00");
+//        list2.add("14.00 - 14.30");
+//        list2.add("14.30 - 15.00");
+//        list2.add("15.00 - 15.30");
+//        list2.add("15.30 - 16.00");
+//        list2.add("16.00 - 16.30");
+//        list2.add("16.30 - 17.00");
+//        list2.add("17.00 - 17.30");
+//        list2.add("17.30 - 18.00");
+
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
+//        spinner1.setAdapter(dataAdapter);
+
+        _spinnerType.setOnItemSelectedListener(this);
+        _spinnerLocation.setOnItemSelectedListener(this);
+        _spinnerTime.setOnItemSelectedListener(this);
+        _spinnerDoctor.setOnItemSelectedListener(this);
+
+        // Button click Listener
+        _btnChooseDate.setOnClickListener(this);
+        _btnSubmit.setOnClickListener(this);
+
+//        setCurrentDate();
+    }
+//    // display current date both on the text view and the Date Picker when the application starts.
+//    public void setCurrentDate() {
+//        text_date = (TextView) findViewById(R.id.text_date);
+//        date_picker = (DatePicker) findViewById(R.id.date_picker);
+//
+//        final Calendar calendar = Calendar.getInstance();
+//
+//        year = calendar.get(Calendar.YEAR);
+//        month = calendar.get(Calendar.MONTH);
+//        day = calendar.get(Calendar.DAY_OF_MONTH);
+//
+//        // set current date into textview
+//        text_date.setText(new StringBuilder()
+//                // Month is 0 based, so you have to add 1
+//                .append(month + 1).append("-")
+//                .append(day).append("-")
+//                .append(year).append(" "));
+//
+//        // set current date into Date Picker
+//        date_picker.init(year, month, day, null);
+//
+//    }
+//    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+//
+//        // when dialog box is closed, below method will be called.
+//        public void onDateSet(DatePicker view, int selectedYear,int selectedMonth, int selectedDay) {
+//            year = selectedYear;
+//            month = selectedMonth;
+//            day = selectedDay;
+//
+//            // set selected date into Text View
+//            text_date.setText(new StringBuilder().append(month + 1)
+//                    .append("-").append(day).append("-").append(year).append(" "));
+//
+//            // set selected date into Date Picker
+//            date_picker.init(year, month, day, null);
+//
+//        }
+//    };
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(parent == _spinnerReferral){
+
+        }else if(parent == _spinnerType){
+
+        }else if(parent == _spinnerLocation){
+
+        }else if(parent == _spinnerTime){
+
+        }else if(parent == _spinnerDoctor){
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == _btnChooseDate){
+
+        }else if(v == _btnSubmit){
+
+        }
+    }
+}

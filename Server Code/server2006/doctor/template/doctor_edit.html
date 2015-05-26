@@ -1,0 +1,66 @@
+<html>
+    <head>
+        {% load clinic_extras %}
+        {% load staticfiles %}
+        <link href="{% static 'css/uikit.css' %}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/components/notify.css' %}" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="uk-grid">
+            <div class="uk-width-1-2 uk-container-center">
+                <h2>Add a Doctor</h2>
+                <form class="uk-form uk-form-horizontal" action="/doctor/edit/submit" method="post">
+                    {% csrf_token %}
+                    <fieldset data-uk-margin>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="name">Doctor Name</label>
+                            <div class="uk-form-controls">
+                                <input name="name" type="text" value="{{doctor.account.username}}"/>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="type">Type</label>
+                            <div class="uk-form-controls">
+                                <select name="type">
+                                    {% for i in 'xxxx' %}
+                                    {% if forloop.counter0 == doctor.type %}
+                                    <option value="{{forloop.counter0}}" selected>{{forloop.counter0|doctor_type}}</option>
+                                    {% else %}
+                                    <option value="{{forloop.counter0}}">{{forloop.counter0|doctor_type}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="doctorid" value="{{doctor.id}}">
+                        <a class="uk-button uk-button-success" id="submitbutton">Save</a>
+                        <a class="uk-button" href="/clinic/list">Back</a>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+
+    </body>
+    <script src="{% static 'script/jquery.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/jquery.form.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/uikit.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'script/components/notify.min.js' %}" type="text/javascript"></script>
+    <script>
+        $(function(){
+            $("#submitbutton").click(function(){
+                $("form").ajaxSubmit({
+                    success: function(){
+                        window.location.href="/clinic/list";
+                    },
+                    error: function(xhr, status, error){
+                        UIkit.notify({status: 'danger', message: "Error (" + error + ")"});
+                    },
+                    complete: function(){
+                        $("form").clearForm();
+                    }
+                });
+            });
+        });
+    </script>
+</html>

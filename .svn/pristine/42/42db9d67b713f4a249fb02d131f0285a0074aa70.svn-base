@@ -1,0 +1,249 @@
+package com.ce2006.project.activity.account;
+
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ce2006.project.localstorage.PreferenceManager;
+import com.ce2006.project.model.User_Particulars;
+import com.ce2006.project.server.Particulars;
+import com.example.user.ce2006_project.R;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+public class ModifyParticularActivity extends ActionBarActivity implements View.OnClickListener {
+    private Button btnSubmit;
+    private EditText txtName, txtEmail, txtContact, txtCity, txtAddress, txtPostal;
+    private Spinner spinnerCountry;
+    private Switch switchType;
+    private ProgressBar progressBar;
+    private UpdateTask task;
+    private boolean updateInProgress = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_particular_modifier);
+
+        txtName = (EditText) findViewById(R.id.txtName);
+        txtEmail = (EditText) findViewById(R.id.txtEmail);
+        txtContact = (EditText) findViewById(R.id.txtContact);
+        txtAddress = (EditText) findViewById(R.id.txtAddress);
+        txtCity = (EditText) findViewById(R.id.txtCity);
+        txtPostal = (EditText) findViewById(R.id.txtPostal);
+        spinnerCountry = (Spinner) findViewById(R.id.spinnerCountry);
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(this);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        switchType = (Switch) findViewById(R.id.switchType);
+        loadDetails();
+        hideKeyboard();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(txtEmail.getWindowToken(), 0);
+    }
+
+    private void loadDetails() {
+        FetchParticularTask task = new FetchParticularTask(this);
+        task.execute();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnSubmit) {
+            if (checkField()) {
+                String email = txtEmail.getText().toString();
+                String contact = txtContact.getText().toString();
+                String country = (String) spinnerCountry.getSelectedItem();
+                String city = txtCity.getText().toString();
+                String address = txtAddress.getText().toString();
+                String postal_code = txtPostal.getText().toString();
+                String type = switchType.isChecked() ? "1" : "0";
+                task = new UpdateTask(this);
+                task.execute(email, contact, address, city, postal_code, country, type);
+            }
+        }
+    }
+
+    private boolean checkField() {
+        boolean emptyField = false;
+        TextView focusTo = null;
+        if (txtEmail.getText().toString().isEmpty()) {
+            emptyField = true;
+            focusTo = txtEmail;
+        }
+        if (txtContact.getText().toString().isEmpty()) {
+            emptyField = true;
+            focusTo = txtContact;
+        }
+        if (txtAddress.getText().toString().isEmpty()) {
+            emptyField = true;
+            focusTo = txtAddress;
+        }
+        if (txtCity.getText().toString().isEmpty()) {
+            emptyField = true;
+            focusTo = txtCity;
+        }
+        if (txtPostal.getText().toString().isEmpty()) {
+            emptyField = true;
+            focusTo = txtPostal;
+        }
+        if (emptyField) {
+            if (focusTo != null) focusTo.requestFocus();
+            Toast.makeText(this, "Field should not be empty!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        //check email address format
+        if (!isEmailValid(txtEmail.getText().toString())) {
+            txtEmail.requestFocus();
+            Toast.makeText(this, "Please input a valid email address!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        //check phone number length
+        int phoneNumLength = txtContact.length();
+        if (phoneNumLength < 7 || phoneNumLength > 15) {
+            txtContact.requestFocus();
+            Toast.makeText(this, "Please input a valid contact number!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        //check postal code length
+        if (txtPostal.length() < 5 || txtPostal.length() > 6) {
+            txtPostal.requestFocus();
+            Toast.makeText(this, "Please input a valid postal code!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isEmailValid(String email) {
+        boolean isValid = false;
+
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!updateInProgress) {
+            super.onBackPressed();
+        }
+    }
+
+    private class UpdateTask extends AsyncTask<String, Void, Boolean> {
+        private Activity context;
+
+        private UpdateTask(Activity context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+            btnSubmit.setEnabled(false);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            if (params.length != 7) {
+                return false;
+            } else {
+                PreferenceManager manager = PreferenceManager.getManager(context);
+                String name = manager.getUserName();
+                String password = manager.getPassword();
+                String email = params[0];
+                String contact = params[1];
+                String address = params[2];
+                String city = params[3];
+                String postal = params[4];
+                String country = params[5];
+                String type = params[6];
+                return Particulars.updateParticulars(name, password, email, contact, country, city, address, postal, type.equals("1"));
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                txtName.requestFocus();
+                Toast.makeText(context, "Update Failed!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, "Update Successfully!", Toast.LENGTH_LONG).show();
+            }
+            progressBar.setVisibility(View.INVISIBLE);
+            btnSubmit.setEnabled(true);
+            InputMethodManager imm = (InputMethodManager) getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(txtEmail.getWindowToken(), 0);
+        }
+    }
+
+    private class FetchParticularTask extends AsyncTask<Void, Void, User_Particulars> {
+        private Activity context;
+
+        private FetchParticularTask(Activity context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+            btnSubmit.setEnabled(false);
+            updateInProgress = true;
+        }
+
+        @Override
+        protected User_Particulars doInBackground(Void... params) {
+            PreferenceManager manager = PreferenceManager.getManager(context);
+            return Particulars.getParticulars(manager.getUserName(), manager.getPassword());
+        }
+
+        @Override
+        protected void onPostExecute(User_Particulars particulars) {
+            updateInProgress = false;
+            progressBar.setVisibility(View.INVISIBLE);
+            btnSubmit.setEnabled(true);
+
+            txtName.setText(particulars.getName());
+            txtEmail.setText(particulars.getEmail());
+            txtContact.setText(particulars.getContactNumber());
+            txtAddress.setText(particulars.getAddress());
+            txtCity.setText(particulars.getCity());
+            txtPostal.setText(particulars.getPostal());
+            switchType.setChecked(particulars.isContactType());
+
+            SpinnerAdapter adapter = spinnerCountry.getAdapter();
+            for (int i = 0; i < adapter.getCount(); i++) {
+                if (((String) adapter.getItem(i)).equals(particulars.getCountry())) {
+                    spinnerCountry.setSelection(i);
+                    break;
+                }
+            }
+        }
+    }
+}
+

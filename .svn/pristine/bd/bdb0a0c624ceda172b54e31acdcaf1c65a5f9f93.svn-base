@@ -1,0 +1,7 @@
+package com.ce2006.project.activity.appointment;
+
+import com.ce2006.project.model.Appointment;
+
+public interface MakeAppointmentListener {
+    public void appointmentMade(Appointment appointment);
+}

@@ -1,0 +1,145 @@
+package com.example.user.ce2006_project;
+import android.provider.Settings;
+
+import java.util.*;
+/**
+ * Created by GraceChristina on 24/2/2015.
+ */
+public class User_Particulars extends User{
+    private String name;
+    private int age;
+    private Date date_of_birth;
+    private boolean contact_type; // email -> true; sms -> false;
+    private String contact_number;
+    private String email;
+    private Location user_address;
+
+
+    public User_Particulars(String name, int age, Date date_of_birth, String contact_number, String email){
+        this.name = name;
+        this.age = age;
+        this.date_of_birth = date_of_birth;
+        this.contact_number = contact_number;
+        this.email = email;
+
+        //retrieve location from db
+       // user_address.setAddress()= db_location.getAddress ;
+        // repeat above line for city, country, postal code
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public int getAge(){
+        return age;
+    }
+
+    public void setAge(int age){
+        this.age = age;
+    }
+
+    public Date getDate(){
+        return date_of_birth;
+    }
+
+    public void setDate(Date date_of_birth){
+        this.date_of_birth = date_of_birth;
+    }
+
+    public String getContact_number(){
+        return contact_number;
+    }
+
+    public void setContact_number(String contact_number){
+        this.contact_number = contact_number;
+    }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public boolean getContact_type(){
+        return contact_type;
+    }
+
+    public void setContact_type(boolean contact_type){
+        this.contact_type = contact_type;
+    }
+
+    public void setNewParticulars(){
+        String new_name, new_email, new_contact;
+        int new_age;
+        boolean new_contact_type;
+        Date new_date;
+
+
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Enter your full name");
+        new_name= scan.nextLine();
+        setName(new_name);
+
+        System.out.println("Enter your email address");
+        new_email= scan.nextLine();
+        setEmail(new_email);
+
+        System.out.println("Enter your contact number");
+        new_contact= scan.nextLine();
+        setContact_number(new_contact);
+
+        System.out.println("Enter age");
+        new_age= scan.nextInt();
+        setAge(new_age);
+
+        System.out.println("Enter DOB in dd/mm/yyyy format");
+        // find out how to do the date! ask google
+
+
+
+        user_address.setLocation(); //for new user to enter location
+
+    }
+
+
+    public void modifyContactInfo() {
+        Scanner scan = new Scanner(System.in);
+        int option; //option will be button on screen
+        System.out.println("Enter your choice,");
+        option = scan.nextInt();
+        do {
+            switch (option)
+            {
+                case(1):
+                {
+                    String new_email;            //modify email         // can be linked to buttons but have to create another class to handle activity
+                    System.out.println("Enter your new email address");
+                    new_email=scan.nextLine();
+                    setEmail(new_email);
+                    break;
+                }
+                case(2):
+                {
+                    String new_contact_num;            //modify contact number
+                    System.out.println("Enter your new contact number");
+                    new_contact_num=scan.nextLine();
+                    setContact_number(new_contact_num);
+                    break;
+                }
+                case(3):
+                    user_address.setLocation();//modify address
+                    break;
+            }
+            System.out.println("Enter your choice,");
+            option = scan.nextInt();
+        } while (option!=-1);
+    }
+}

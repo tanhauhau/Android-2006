@@ -1,0 +1,101 @@
+package com.ce2006.project.server;
+
+import com.ce2006.project.model.Appointment;
+import com.ce2006.project.model.Clinic;
+import com.ce2006.project.model.Doctor;
+import com.ce2006.project.model.Credential;
+import com.ce2006.project.model.Location;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+/**
+ * Created by lhtan on 24/3/15.
+ */
+public class DoctorManager {
+    private Credential credential;
+    public DoctorManager(Credential credential) {
+        this.credential = credential;
+    }
+
+    public Doctor createDoctor(String name, int type, String email){
+        Request request = new JsonRequest("api/doctor/create");
+        request.data("username", credential.getUsername());
+        request.data("password", credential.getPassword());
+        request.data("name", name);
+        request.data("type", String.valueOf(type));
+        request.data("email", email);
+
+        JSONObject content = (JSONObject) request.execute();
+        if (content != null && content.keySet().contains("doctor")) {
+            JSONObject c = (JSONObject) content.get("doctor");
+            return Doctor.parseFromJson(c);
+        }
+        return null;
+    }
+    public boolean updateDoctor(Doctor doctor){
+        Request request = new JsonRequest("api/doctor/edit");
+        request.data("username", credential.getUsername());
+        request.data("password", credential.getPassword());
+        request.data("id", String.valueOf(doctor.getId()));
+        request.data("type", String.valueOf(doctor.getType()));
+        JSONObject content = (JSONObject) request.execute();
+        if (content == null || content.keySet().contains("error")) {
+            return false;
+        }
+        return true;
+    }
+    public boolean deleteDoctor(Doctor doctor){
+        Request request = new JsonRequest("api/doctor/delete");
+        request.data("username", credential.getUsername());
+        request.data("password", credential.getPassword());
+        request.data("id", String.valueOf(doctor.getId()));
+        JSONObject content = (JSONObject) request.execute();
+        if (content == null || content.keySet().contains("error")) {
+            return false;
+        }
+        return true;
+    }
+    public boolean linkDoctor(Doctor doctor, Clinic clinic){
+        Request request = new JsonRequest("api/doctor/link");
+        request.data("username", credential.getUsername());
+        request.data("password", credential.getPassword());
+        request.data("doctorid", String.valueOf(doctor.getId()));
+        request.data("clinicid", String.valueOf(clinic.getId()));
+        JSONObject content = (JSONObject) request.execute();
+        if (content == null || content.keySet().contains("error")) {
+            return false;
+        }
+        return true;
+    }
+    public Doctor[] getDoctorList(){
+        Request request = new JsonRequest("api/doctor/list");
+        request.data("username", credential.getUsername());
+        request.data("password", credential.getPassword());
+        JSONObject content = (JSONObject) request.execute();
+        if (content != null && content.keySet().contains("doctors")) {
+            JSONArray array = (JSONArray) content.get("doctors");
+            Doctor[] doctors = new Doctor[array.size()];
+            for (int i=0;i<doctors.length;i++){
+                doctors[i] = Doctor.parseFromJson((JSONObject) array.get(i));
+            }
+            return doctors;
+        }
+        return new Doctor[]{};
+    }
+    public Appointment[] getAppointmentList(){
+        Request request = new JsonRequest("api/doctor/appointment/list");
+        request.data("username", credential.getUsername());
+        request.data("password", credential.getPassword());
+        JSONObject content = (JSONObject) request.execute();
+        if (content != null && content.keySet().contains("appointments")) {
+            JSONArray array = (JSONArray) content.get("appointments");
+            Appointment[] appointments = new Appointment[array.size()];
+            for (int i=0;i<appointments.length;i++){
+                appointments[i] = Appointment.parseFromJson((JSONObject) array.get(i));
+            }
+            return appointments;
+        }
+        return new Appointment[]{};
+    }
+}

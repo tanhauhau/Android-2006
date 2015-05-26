@@ -1,0 +1,46 @@
+package com.ce2006.project.localstorage;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+/**
+ * Created by lhtan on 24/3/15.
+ */
+public class PreferenceManager {
+    private static PreferenceManager instance;
+    Activity activity;
+
+    private PreferenceManager(Activity activity) {
+        this.activity = activity;
+    }
+
+    public static PreferenceManager getManager(Activity activity) {
+        if (instance == null) {
+            instance = new PreferenceManager(activity);
+        }
+        return instance;
+    }
+
+    public String getUserName() {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getString("username", "");
+    }
+
+    public String getPassword() {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getString("password", "");
+    }
+
+    public void saveDetails(String username, String password) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("username", username);
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    public boolean hasSavedDetails() {
+        return !this.getUserName().isEmpty();
+    }
+}

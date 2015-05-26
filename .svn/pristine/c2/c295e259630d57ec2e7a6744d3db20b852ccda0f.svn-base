@@ -1,0 +1,25 @@
+package com.example.user.ce2006_project;
+
+/**
+ * Created by GraceChristina on 24/2/2015.
+ */
+public class Notification {
+    private User_Particulars user;
+    private String message;
+    private Appointment appointment;
+
+    public Notification(User_Particulars user, String message, Appointment appointment){
+        this.user = user;
+        this.message = message;
+        this.appointment = appointment;
+    }
+
+    public String getMessage(){
+        return message;
+    }
+
+    public void setMessage(String message){
+        this.message = message;
+    }
+
+}

@@ -1,0 +1,58 @@
+package com.example.user.ce2006_project;
+
+import java.util.Date;
+
+/**
+ * Created by User on 24/2/2015.
+ */
+public class Appointment {
+    private int app_type; //0=general, 1 for dental, 2 for ENT, 3 for WH
+    private Date time;
+    private Clinic clinic_of_choice;
+    private int appointment_ID;
+    private User user;
+
+    public Appointment(){       //default
+        app_type= 0;
+        time= null;
+        clinic_of_choice=null;
+        appointment_ID= 0;
+        user=null;
+    }
+
+    public boolean tryAppointment(int app_type, Date time, Clinic clinic){
+        /* query with db to see if there are exact matches in app_type, time, clinic
+            if there exists an exact match for all 3 fields, return false
+            else, assign the appointment an id(given by db) and update db records
+            with new appointment, then return true */
+    }
+
+    public void makeGeneralAppointment(){
+        app_type=0;
+    }
+
+    public void makeDentalAppointment(){
+        app_type=1;
+    }
+
+    public void makeENTAppointment(){
+        app_type=2;
+    }
+
+    public void makeWHAppointment(){
+        app_type=3;
+    }
+
+    public boolean changeAppointmentDate(Date time ){
+        /* query with db to see if there are exact matches in app_type, time, clinic
+            if there exists an exact match for all 3 fields, return false
+            else, find the appointment with the appointment_id
+             and update db records with new time and cancel old slot,
+              then return true */
+    }
+
+
+
+
+
+}

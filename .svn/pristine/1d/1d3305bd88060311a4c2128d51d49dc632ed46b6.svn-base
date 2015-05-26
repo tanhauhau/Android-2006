@@ -1,0 +1,14 @@
+package com.ce2006.project.activity.account;
+
+import com.ce2006.project.localstorage.PreferenceManager;
+
+/**
+ * Created by lhtan on 31/3/15.
+ */
+public interface AuthActiviyListener {
+    public void startProgress();
+
+    public void stopProgress();
+
+    public void endsWithResults(boolean success, String username, String password, PreferenceManager.AccountType type);
+}

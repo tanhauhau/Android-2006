@@ -1,0 +1,68 @@
+package com.ce2006.project.model;
+
+import org.json.simple.JSONObject;
+
+import java.io.Serializable;
+
+/**
+ * Created by lhtan on 4/4/15.
+ */
+public class Location implements Serializable{
+    private String city;
+    private String country;
+    private String address;
+    private String postalCode;
+
+    public static Location parseFromJson(JSONObject jsonObject){
+        Location location = new Location();
+        if (jsonObject.containsKey("city"))  location.city = (String) jsonObject.get("city");
+        if (jsonObject.containsKey("country")) location.country = (String) jsonObject.get("country");
+        if (jsonObject.containsKey("address")) location.address = (String) jsonObject.get("address");
+        if (jsonObject.containsKey("postalCode")) location.postalCode = (String) jsonObject.get("postalCode");
+        return location;
+    }
+    private Location(){
+    }
+    public Location(String city, String country, String address, String postalCode) {
+        this.city = city;
+        this.country = country;
+        this.address = address;
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+    @Override
+    public String toString() {
+        return String.format("%s, %s, %s, %s", address, city, postalCode, country);
+    }
+}

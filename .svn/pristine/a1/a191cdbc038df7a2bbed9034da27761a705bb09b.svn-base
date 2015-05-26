@@ -1,0 +1,10 @@
+package com.example.user.ce2006_project;
+
+
+/**
+ * Created by User on 24/2/2015.
+ */
+public class Clinic {
+    private Location clinic_address;
+    private Calendar clinic_schedule;   // do some research
+}

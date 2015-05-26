@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="bold_serif_title">
+    <item name="android:textStyle">bold|italic</item>
+    <item name="android:typeface">sans</item>
+    <item name="android:textSize">@dimen/abc_text_size_large_material</item>
+    <item name="android:textColor">@color/dark_blue</item>
+    </style>
+</resources>

@@ -1,0 +1,69 @@
+package com.ce2006.project.activity;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import com.ce2006.project.activity.appointment.ActivityCreateAppointment;
+import com.ce2006.project.localstorage.PreferenceManager;
+import com.example.user.ce2006_project.R;
+
+
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
+
+    Button btnMakeAppointment, btnChangeAppointment, btnChangeParticulars, btnFirstAidKit;
+    public static final String INTENT_LOGIN_RESULT = "LOGIN";
+    public static final int INTENT_REQUEST_LOGIN = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_main);
+
+        PreferenceManager manager = new PreferenceManager(this);
+        if (manager.getUserName().isEmpty()){
+            Intent intent = new Intent(this, LogInActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivityForResult(intent, INTENT_REQUEST_LOGIN);
+        }
+
+        btnMakeAppointment = (Button) findViewById(R.id.btnMakeAppointment);
+        btnChangeAppointment = (Button) findViewById(R.id.btnChangeAppointmnet);
+        btnChangeParticulars = (Button) findViewById(R.id.btnUpdateParticulars);
+        btnFirstAidKit = (Button) findViewById(R.id.btnFirstAid);
+        btnMakeAppointment.setOnClickListener(this);
+        btnChangeAppointment.setOnClickListener(this);
+        btnChangeParticulars.setOnClickListener(this);
+        btnFirstAidKit.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("Tan", "MainActivity.onActivityResult");
+        if(requestCode == INTENT_REQUEST_LOGIN){
+            if(resultCode == Activity.RESULT_OK){
+                //good to go, logged in.
+            }else{
+                //close the activity if not logged in, means won't show the menu
+                finish();
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnMakeAppointment) {
+            startActivity(new Intent(this, ActivityCreateAppointment.class));
+        } else if (v == btnChangeAppointment) {
+
+        } else if (v == btnChangeParticulars) {
+
+        } else if (v == btnFirstAidKit) {
+
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#bfb7e6">
+
+    <Button
+        android:id="@+id/btnNewAppointment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:text="New Appointment"
+        style="@style/BlueButton"/>
+
+    <Button
+        android:id="@+id/btnReferral"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:text="Referral"
+        style="@style/BlueButton"/>
+
+    <Button
+        android:id="@+id/btnFollowUp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:text="Follow Up"
+        style="@style/BlueButton"/>
+</LinearLayout>
+<!-- From: file:/Users/lhtan/Documents/CE2006_svn/MLTeam1/Code/app/src/main/res/layout/fragment_appointment_reason.xml -->
